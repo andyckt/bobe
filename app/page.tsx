@@ -17,7 +17,7 @@ export default function Dashboard() {
         {/* Header */}
         <header className="border-b-4 border-black dark:dark-gradient-border p-4 sm:p-6 bg-white/40 dark:bg-transparent backdrop-blur-md">
           <div className="flex justify-between items-center gap-4">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight">POSTCRAFT</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight">SHANGHAI NIGHTS</h1>
 
             {/* Mobile menu */}
             <div className="flex md:hidden items-center gap-2">
@@ -71,7 +71,7 @@ export default function Dashboard() {
                 Club
               </Link>
               <Link
-                href="#"
+                href="/bar"
                 className="flex items-center gap-2 text-lg font-bold p-3 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl"
               >
                 Bar
