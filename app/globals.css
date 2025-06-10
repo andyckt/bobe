@@ -73,4 +73,22 @@
     background-clip: padding-box, border-box;
     background-origin: padding-box, border-box;
   }
+  
+  /* New utility class for gradient shadows - 8px offset version */
+  .dark-gradient-shadow-lg {
+    box-shadow: 
+      2px 8px 0px 0px #ec4899,
+      4px 8px 0px 0px #d946ef,
+      6px 8px 0px 0px #c026d3,
+      8px 8px 0px 0px #9333ea;
+  }
+  
+  /* 4px offset version for smaller elements */
+  .dark-gradient-shadow-sm {
+    box-shadow: 
+      1px 4px 0px 0px #ec4899,
+      2px 4px 0px 0px #d946ef,
+      3px 4px 0px 0px #c026d3,
+      4px 4px 0px 0px #9333ea;
+  }
 }

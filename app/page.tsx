@@ -13,7 +13,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-zinc-900 dark:to-black p-2 sm:p-4 md:p-8">
       {/* Glassmorphic container */}
-      <div className="w-full max-w-7xl mx-auto backdrop-blur-xl bg-white/30 dark:bg-zinc-900/30 border-4 border-black dark:dark-rounded-gradient-border rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_#ec4899] overflow-hidden">
+      <div className="w-full max-w-7xl mx-auto backdrop-blur-xl bg-white/30 dark:bg-zinc-900/30 border-4 border-black dark:dark-rounded-gradient-border rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg overflow-hidden">
         {/* Header */}
         <header className="border-b-4 border-black dark:dark-gradient-border p-4 sm:p-6 bg-white/40 dark:bg-transparent backdrop-blur-md">
           <div className="flex justify-between items-center gap-4">
@@ -41,12 +41,12 @@ export default function Dashboard() {
             {/* Desktop buttons */}
             <div className="hidden sm:flex items-center gap-3">
               <ThemeToggle />
-              <Button className="bg-black hover:bg-black/80 text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple dark:text-black dark:hover:brightness-110 rounded-xl border-2 border-black dark:dark-rounded-gradient-border font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_#ec4899]">
+              <Button className="bg-black hover:bg-black/80 text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple dark:text-black dark:hover:brightness-110 rounded-xl border-2 border-black dark:dark-rounded-gradient-border font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-sm">
                 Connect Account
               </Button>
               <Button
                 variant="outline"
-                className="rounded-xl border-2 border-black dark:dark-rounded-gradient-border font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_#ec4899]"
+                className="rounded-xl border-2 border-black dark:dark-rounded-gradient-border font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-sm"
               >
                 Settings
               </Button>

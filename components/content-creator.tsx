@@ -33,7 +33,7 @@ export default function ContentCreator({ type }: ContentCreatorProps) {
 
   return (
     <div className="grid lg:grid-cols-[1fr_300px] gap-6">
-      <Card className="border-4 border-black dark:dark-rounded-gradient-border rounded-xl p-4 sm:p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_#ec4899] bg-white dark:bg-zinc-900">
+      <Card className="border-4 border-black dark:dark-rounded-gradient-border rounded-xl p-4 sm:p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg bg-white dark:bg-zinc-900">
         <div className="mb-4">
           <Textarea
             placeholder={`Write your ${type} content here...`}
@@ -212,7 +212,7 @@ export default function ContentCreator({ type }: ContentCreatorProps) {
                 </div>
                 <Switch checked={selectedPlatforms.youtube} onCheckedChange={() => togglePlatform("youtube")} />
               </div>
-              <Button className="w-full mt-4 h-12 bg-black hover:bg-black/80 text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple dark:hover:brightness-110 rounded-xl border-2 border-black dark:dark-rounded-gradient-border font-bold text-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_#ec4899] flex items-center justify-center gap-2">
+              <Button className="w-full mt-4 h-12 bg-black hover:bg-black/80 text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple dark:hover:brightness-110 rounded-xl border-2 border-black dark:dark-rounded-gradient-border font-bold text-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-sm flex items-center justify-center gap-2">
                 <Send className="h-5 w-5" /> Publish Now
               </Button>
             </CollapsibleContent>
@@ -222,7 +222,7 @@ export default function ContentCreator({ type }: ContentCreatorProps) {
 
       {/* Desktop-only platforms section */}
       <div className="hidden lg:block space-y-6">
-        <Card className="border-4 border-black dark:dark-rounded-gradient-border rounded-xl p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_#ec4899] bg-white dark:bg-zinc-900">
+        <Card className="border-4 border-black dark:dark-rounded-gradient-border rounded-xl p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg bg-white dark:bg-zinc-900">
           <h3 className="font-black text-lg mb-4">PLATFORMS</h3>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -256,7 +256,7 @@ export default function ContentCreator({ type }: ContentCreatorProps) {
           </div>
         </Card>
 
-        <Button className="w-full h-14 bg-black hover:bg-black/80 text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple dark:hover:brightness-110 rounded-xl border-2 border-black dark:dark-rounded-gradient-border font-bold text-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_#ec4899] flex items-center justify-center gap-2">
+        <Button className="w-full h-14 bg-black hover:bg-black/80 text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple dark:hover:brightness-110 rounded-xl border-2 border-black dark:dark-rounded-gradient-border font-bold text-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-sm flex items-center justify-center gap-2">
           <Send className="h-5 w-5" /> Publish Now
         </Button>
       </div>
