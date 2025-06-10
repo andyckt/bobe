@@ -1,13 +1,117 @@
+"use client"
+
+import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { ArrowLeft, MapPin, Star, Clock, Calendar, Share2, Bookmark, Heart, MessageCircle, Image, User } from "lucide-react"
+import { ArrowLeft, MapPin, Star, Clock, Calendar, Share2, Bookmark, Heart, MessageCircle, Image, User, Sun, Sunset, Moon } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 // Sample data - this would come from your database
 const bars = [
+  {
+    id: "flair",
+    name: "Flair Rooftop Bar",
+    location: "58th Floor, The Ritz-Carlton Pudong",
+    rating: 4.9,
+    priceRange: "$$$",
+    hours: "5PM - 1AM",
+    description: "Spectacular rooftop bar offering panoramic views of Shanghai's skyline from the 58th floor of the Ritz-Carlton.",
+    mainImage: "https://images.unsplash.com/photo-1551097295-4c28e380cdf6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1575444758702-4a6b9222336e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80",
+      "https://images.unsplash.com/photo-1600854109241-58195e0d7a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80"
+    ],
+    tags: ["Rooftop", "Skyline View", "Cocktails", "Date Night"],
+    amenities: ["Outdoor Terrace", "Indoor Lounge", "Reservations Recommended", "Hotel Bar"],
+    address: "Shanghai ifc, 8 Century Avenue, Lujiazui, Pudong District, Shanghai",
+    phone: "+86 21 2020 1888",
+    website: "ritzcarlton.com/pudong",
+    platformContent: `
+      <h2 class="text-2xl font-bold mb-4">I Found The Rooftop Spot in Shanghai — And It Blew My Mind 🤯</h2>
+      
+      <p class="mb-4">Okay, let me paint the scene: I'm standing 58 floors above Shanghai, cocktail in hand, warm summer breeze on my face, and the city — just glowing below me like a galaxy. That was my night at Flair, and honestly? It's one of the best rooftop bars I've ever been to.</p>
+      
+      <p class="mb-4">I'd heard the hype, seen the pics, but being there? Different level.</p>
+      
+      <h3 class="text-xl font-bold mb-2">Getting There at Just the Right Time ⏰</h3>
+      
+      <p class="mb-4">I showed up around 6:30pm, just in time to catch golden hour. The indoor area was already starting to fill up, but I'd booked a table outside (pro move — do it the day before, they fill up fast).</p>
+      
+      <p class="mb-4">By 7pm, the lights started flicking on across the skyline, one by one, until suddenly — boom — the whole city was lit. You get this insane, panoramic view of Shanghai just stretching out forever. You can literally see the city expanding in every direction. It kinda makes you go quiet for a second. Just... wow.</p>
+      
+      <h3 class="text-xl font-bold mb-2">The Vibe? Chill but Classy</h3>
+      
+      <p class="mb-4">The terrace has this effortless cool. Like, you're high above one of the busiest cities in the world, but it's peaceful up there. No crazy club beats — just lowkey background music, dim lighting inside, and that smooth city breeze outside. It's the kind of place you go to talk for hours over drinks and fries, not scream over loud music.</p>
+      
+      <p class="mb-4">Inside's a whole different mood — darker, cozier, great if you're more into chill lounge energy. No minimum spend indoors either, which is nice.</p>
+      
+      <p class="mb-4">But outside? Minimum spend, yeah, but honestly? Worth it. Totally.</p>
+      
+      <h3 class="text-xl font-bold mb-2">Drinks, Bites, and a Little Buzz 🍷🍟</h3>
+      
+      <p class="mb-4">I started with a drink that was under ¥100 — surprisingly reasonable for a rooftop bar with this kind of view. And yes, I caved and got the truffle fries because everyone says they're good — and they were so good. Crunchy, cheesy, just salty enough. Basically the kind of thing that disappears while you're still deciding whether you're hungry or not.</p>
+      
+      <p class="mb-4">And get this: if you're staying at the Ritz-Carlton (which Flair is part of), you don't even have to order anything. Free entry, no drink required. Must be nice. 😅</p>
+      
+      <h3 class="text-xl font-bold mb-2">Would I Go Back?</h3>
+      
+      <p class="mb-4">In a heartbeat. It's perfect for those "I want to go somewhere cool but not too crazy" nights. Great for a date, catching up with friends, or even going solo if you're in that treat-yourself vibe.</p>
+      
+      <p class="mb-4">But seriously — don't forget to book ahead. And get there early. You want that golden hour glow and a good seat before the city lights start doing their thing.</p>
+      
+      <div class="bg-amber-50 dark:bg-amber-950/30 p-4 rounded-xl mt-6 mb-4">
+        <h4 class="font-bold mb-2">TL;DR:</h4>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>Arrive: 6:30pm for sunset, 7pm for the city light show</li>
+          <li>Order: Cocktail + truffle fries = chef's kiss</li>
+          <li>Book: At least one day ahead for outdoor seating</li>
+          <li>Budget: One drink gets you in (¥100–¥168), terrace has a minimum</li>
+          <li>Dress code: Smart casual — keep it cute, no need to overdress</li>
+        </ul>
+      </div>
+      
+      <p>Anyway, if you're rooftop hopping through Shanghai — Flair can be your list (we not affiliate with any businesses, I wish tho haha)</p>
+    `,
+    studentExperiences: [
+      {
+        name: "Sophie",
+        avatar: "https://i.pravatar.cc/150?img=45",
+        university: "NYU Shanghai",
+        date: "July 10, 2023",
+        content: "Came here for my birthday and it was MAGICAL! We timed it perfectly for sunset, and watching the city transform as night fell was an experience I'll never forget. Yes, it's pricey, but for a special occasion, absolutely worth it. The service was impeccable, and my friends and I felt like we were living in a movie.",
+        rating: 5,
+        likes: 47,
+        comments: 8,
+        images: ["https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80"]
+      },
+      {
+        name: "Raj",
+        avatar: "https://i.pravatar.cc/150?img=59",
+        university: "Fudan University",
+        date: "August 22, 2023",
+        content: "As an international student in Shanghai, I've been trying to hit all the 'must-visit' spots, and Flair was high on my list. The view definitely lives up to the hype - it's breathtaking! I'd recommend saving this for when family visits or for a special occasion, as it's not really student-budget friendly. Pro tip: I went on a Monday evening and it was much less crowded than weekends.",
+        rating: 4.7,
+        likes: 35,
+        comments: 5,
+        images: ["https://images.unsplash.com/photo-1496318447583-f524yb1022e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80", "https://images.unsplash.com/photo-1567696911980-2c473965c147?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80"]
+      },
+      {
+        name: "Chen Wei",
+        avatar: "https://i.pravatar.cc/150?img=33",
+        university: "Shanghai Jiao Tong University",
+        date: "September 5, 2023",
+        content: "I took my girlfriend here for our anniversary, and it was perfect. We arrived just before sunset, and the transition from day to night was spectacular. The cocktails are creative and well-made, though not cheap. Still, the memory of that view and the experience was worth every yuan. Make sure to book ahead for the terrace - I booked three days in advance and got the last table for our time slot!",
+        rating: 4.9,
+        likes: 52,
+        comments: 7,
+        images: []
+      }
+    ]
+  },
   {
     id: "logan",
     name: "Logan's Punch",
@@ -131,6 +235,39 @@ const bars = [
   }
 ];
 
+function TimeOption({ icon, time, description, gradient, recommended = false }: { 
+  icon: React.ReactNode, 
+  time: string, 
+  description: string,
+  gradient: string,
+  recommended?: boolean
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+  
+  return (
+    <div 
+      className={`relative flex-1 rounded-xl overflow-hidden border-2 ${recommended ? 'border-amber-400' : 'border-gray-200 dark:border-gray-700'} cursor-pointer transition-all hover:shadow-lg ${isHovered ? 'scale-105' : ''}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className={`p-4 bg-gradient-to-r ${gradient} text-white`}>
+        <div className="flex justify-between items-start">
+          {icon}
+          {recommended && (
+            <span className="bg-amber-400 text-black text-xs px-2 py-1 rounded-full font-bold">
+              Recommended
+            </span>
+          )}
+        </div>
+        <h3 className="text-lg font-bold mt-3">{time}</h3>
+      </div>
+      <div className="p-3 bg-white dark:bg-zinc-900">
+        <p className="text-sm text-gray-600 dark:text-gray-300">{description}</p>
+      </div>
+    </div>
+  );
+}
+
 export default function BarDetailPage({ params }: { params: { id: string } }) {
   // Find the bar by ID
   const bar = bars.find(bar => bar.id === params.id) || bars[0];
@@ -156,14 +293,22 @@ export default function BarDetailPage({ params }: { params: { id: string } }) {
 
         {/* Main content */}
         <div className="overflow-auto max-h-[calc(100vh-6rem)]">
-          {/* Hero Image */}
-          <div className="relative h-[40vh] min-h-[300px]">
+          {/* Hero Image with special treatment for rooftop bars */}
+          <div className="relative h-[50vh] min-h-[400px]">
             <img 
               src={bar.mainImage} 
               alt={bar.name} 
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+            
+            {/* Animated city lights effect for rooftop bars */}
+            {bar.tags.includes("Rooftop") && (
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="w-full h-full opacity-30 mix-blend-screen bg-[url('https://media.giphy.com/media/3o7aDdSjGlUbmwFCQo/giphy.gif')] bg-cover"></div>
+              </div>
+            )}
+            
             <div className="absolute bottom-0 left-0 p-6 text-white">
               <div className="flex items-center mb-2">
                 <Star className="h-5 w-5 text-yellow-500 fill-yellow-500 mr-1" />
@@ -191,6 +336,38 @@ export default function BarDetailPage({ params }: { params: { id: string } }) {
 
           {/* Content Tabs */}
           <div className="p-4 sm:p-6">
+            {/* Special time-of-day recommendation for rooftop bars */}
+            {bar.tags.includes("Rooftop") && (
+              <Card className="border-4 border-black dark:dark-rounded-gradient-border rounded-xl overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg bg-white dark:bg-zinc-900 mb-6">
+                <div className="p-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold">
+                  Best Time to Visit
+                </div>
+                <div className="p-4">
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <TimeOption 
+                      icon={<Sun className="h-10 w-10" />}
+                      time="Afternoon (3-5PM)"
+                      description="Less crowded, good for clear skyline views"
+                      gradient="from-sky-400 to-blue-500"
+                    />
+                    <TimeOption 
+                      icon={<Sunset className="h-10 w-10" />}
+                      time="Sunset (6-7:30PM)"
+                      description="Golden hour glow, watch the city transform"
+                      gradient="from-orange-400 to-pink-500"
+                      recommended={true}
+                    />
+                    <TimeOption 
+                      icon={<Moon className="h-10 w-10" />}
+                      time="Night (8PM+)"
+                      description="City lights sparkle, lively atmosphere"
+                      gradient="from-indigo-800 to-purple-900"
+                    />
+                  </div>
+                </div>
+              </Card>
+            )}
+
             <Tabs defaultValue="overview" className="w-full">
               <TabsList className="w-full bg-white/50 dark:bg-zinc-800/50 border-2 border-black dark:dark-rounded-gradient-border rounded-xl p-1 mb-6">
                 <TabsTrigger

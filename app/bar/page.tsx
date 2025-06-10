@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ArrowLeft, ChevronRight, MapPin, Star, Clock, Music, Wine, GlassWater, ExternalLink } from "lucide-react"
+import { ArrowLeft, ChevronRight, MapPin, Star, Clock, Music, Wine, GlassWater, ExternalLink, Building2 } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 // Sample data - this would come from your database
@@ -110,6 +110,32 @@ const bars = [
         rating: 4.5
       }
     ]
+  },
+  {
+    id: "flair",
+    name: "Flair Rooftop Bar",
+    location: "58th Floor, The Ritz-Carlton Pudong",
+    rating: 4.9,
+    priceRange: "$$$",
+    hours: "5PM - 1AM",
+    description: "Spectacular rooftop bar offering panoramic views of Shanghai's skyline from the 58th floor of the Ritz-Carlton.",
+    mainImage: "https://images.unsplash.com/photo-1551097295-4c28e380cdf6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    tags: ["Rooftop", "Skyline View", "Cocktails", "Date Night"],
+    platformContent: "I Found The Rooftop Spot in Shanghai — And It Blew My Mind 🤯 Standing 58 floors above Shanghai, cocktail in hand, watching the city glow below like a galaxy. Arrive at 6:30pm for golden hour, stay for the spectacular city lights.",
+    studentExperiences: [
+      {
+        name: "Sophie",
+        university: "NYU Shanghai",
+        content: "Came here for my birthday and it was MAGICAL! We timed it perfectly for sunset, and watching the city transform as night fell was an experience I'll never forget.",
+        rating: 5
+      },
+      {
+        name: "Raj",
+        university: "Fudan University",
+        content: "The view definitely lives up to the hype - it's breathtaking! I'd recommend saving this for when family visits or for a special occasion, as it's not really student-budget friendly.",
+        rating: 4.7
+      }
+    ]
   }
 ];
 
@@ -160,15 +186,29 @@ export default function BarPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {bars.map((bar) => (
                 <Card key={bar.id} className="border-4 border-black dark:dark-rounded-gradient-border rounded-xl overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg hover:translate-y-[-4px] transition-transform">
-                  <div className="aspect-[16/9] relative overflow-hidden">
+                  <div className={`aspect-[16/9] relative overflow-hidden ${bar.tags.includes("Rooftop") ? "bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500" : ""}`}>
                     <img 
                       src={bar.mainImage} 
                       alt={bar.name} 
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    {/* Special overlay for rooftop bars */}
+                    {bar.tags.includes("Rooftop") && (
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent mix-blend-multiply"></div>
+                    )}
+                    {/* Regular overlay for other bars */}
+                    {!bar.tags.includes("Rooftop") && (
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                    )}
                     <div className="absolute bottom-0 left-0 p-4 text-white">
-                      <h3 className="text-xl sm:text-2xl font-bold">{bar.name}</h3>
+                      <div className="flex items-center">
+                        <h3 className="text-xl sm:text-2xl font-bold">{bar.name}</h3>
+                        {bar.tags.includes("Rooftop") && (
+                          <span className="ml-2 bg-gradient-to-r from-amber-400 to-orange-500 text-black text-xs px-2 py-1 rounded-full font-bold">
+                            Rooftop
+                          </span>
+                        )}
+                      </div>
                       <div className="flex items-center text-sm mt-1">
                         <MapPin className="h-4 w-4 mr-1" />
                         <span>{bar.location}</span>
@@ -215,6 +255,12 @@ export default function BarPage() {
             <h2 className="text-xl sm:text-2xl font-black mb-6">BROWSE BY CATEGORY</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
               <CategoryCard 
+                title="Rooftop Bars" 
+                icon={<Building2 className="h-8 w-8" />} 
+                count={5}
+                color="from-indigo-500 to-purple-500"
+              />
+              <CategoryCard 
                 title="Craft Cocktails" 
                 icon={<GlassWater className="h-8 w-8" />} 
                 count={12}
@@ -231,12 +277,6 @@ export default function BarPage() {
                 icon={<ExternalLink className="h-8 w-8" />} 
                 count={6}
                 color="from-purple-500 to-violet-500"
-              />
-              <CategoryCard 
-                title="Wine Bars" 
-                icon={<Wine className="h-8 w-8" />} 
-                count={9}
-                color="from-emerald-500 to-teal-500"
               />
             </div>
           </div>
