@@ -68,19 +68,19 @@ export default function Dashboard() {
                 href="#"
                 className="flex items-center gap-2 text-lg font-bold p-3 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl"
               >
-                Analytics
+                Club
               </Link>
               <Link
                 href="#"
                 className="flex items-center gap-2 text-lg font-bold p-3 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl"
               >
-                Calendar
+                Bar
               </Link>
               <Link
                 href="#"
                 className="flex items-center gap-2 text-lg font-bold p-3 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl"
               >
-                Messages
+                Who are we?
               </Link>
             </nav>
 
