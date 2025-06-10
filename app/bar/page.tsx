@@ -171,7 +171,7 @@ export default function BarPage() {
                   <ArrowLeft className="h-5 w-5 mr-2" /> Back
                 </Button>
               </Link>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight">SHANGHAI BARS</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight">SHANGHAI BARS | Bobe.co</h1>
             </div>
             <ThemeToggle />
           </div>

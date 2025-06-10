@@ -6,7 +6,7 @@ export default function MobileNavigation() {
   return (
     <div className="h-full bg-white/40 dark:bg-zinc-900/80 backdrop-blur-md flex flex-col">
       <div className="p-6 border-b-4 border-black dark:dark-gradient-border">
-        <h2 className="text-2xl font-black">SHANGHAI NIGHTS</h2>
+        <h2 className="text-2xl font-black">Bobe.co</h2>
       </div>
 
       <div className="flex-1 overflow-auto p-4">
@@ -30,7 +30,7 @@ export default function MobileNavigation() {
             Bar
           </Link>
           <Link
-            href="#"
+            href="/who-are-we"
             className="flex items-center gap-2 text-lg font-bold p-3 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl"
           >
             Who are we?
