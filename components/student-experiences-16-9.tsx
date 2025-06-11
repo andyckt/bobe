@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Heart, Wine, Plus } from "lucide-react"
+import { Heart, Wine } from "lucide-react"
 
 interface ExperienceCardProps {
   username: string
@@ -38,10 +38,10 @@ function ExperienceCard({
   }
 
   return (
-    <div className="group flex flex-col rounded-xl overflow-hidden bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none border-4 border-black dark:dark-rounded-gradient-border transform transition-all duration-300 hover:-translate-y-1">
-      <div className="relative overflow-hidden">
+    <div className="transform transition-all duration-300 hover:-translate-y-1">
+      <Card className="border-4 overflow-hidden rounded-xl bg-white dark:bg-zinc-900 dark:dark-rounded-gradient-border">
         {/* Image with 16:9 aspect ratio */}
-        <div className="relative aspect-video overflow-hidden">
+        <div className="relative aspect-video w-full overflow-hidden">
           <img 
             src={image} 
             alt={venue} 
@@ -62,7 +62,7 @@ function ExperienceCard({
           </h3>
           
           {/* User and likes info */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mt-auto">
             <div className="flex items-center">
               <Avatar className="h-5 w-5 mr-1.5">
                 <AvatarImage src={userAvatar} />
@@ -82,7 +82,7 @@ function ExperienceCard({
             </button>
           </div>
         </div>
-      </div>
+      </Card>
     </div>
   )
 }
@@ -130,4 +130,4 @@ export default function StudentExperiences() {
       </div>
     </div>
   )
-} 
+}
