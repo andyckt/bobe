@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Instagram, Linkedin, Menu, Plus, Twitter, Youtube } from "lucide-react"
 import SocialMediaCard from "@/components/social-media-card"
-import ContentCreator from "@/components/content-creator"
+import StudentExperiences from "@/components/student-experiences"
 import StudioSelector from "@/components/studio-selector"
 import MobileNavigation from "@/components/mobile-navigation"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
@@ -146,38 +146,7 @@ export default function Dashboard() {
             </div>
 
             <div className="mb-10">
-              <h2 className="text-xl sm:text-2xl font-black mb-4">CREATE CONTENT</h2>
-              <Tabs defaultValue="post" className="w-full">
-                <TabsList className="w-full bg-white/50 dark:bg-zinc-800/50 border-2 border-black dark:dark-rounded-gradient-border rounded-xl p-1 mb-4">
-                  <TabsTrigger
-                    value="post"
-                    className="rounded-lg data-[state=active]:bg-black data-[state=active]:text-white dark:data-[state=active]:bg-gradient-to-r dark:data-[state=active]:from-gradient-pink dark:data-[state=active]:to-gradient-purple dark:data-[state=active]:text-black font-bold"
-                  >
-                    Post
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="story"
-                    className="rounded-lg data-[state=active]:bg-black data-[state=active]:text-white dark:data-[state=active]:bg-gradient-to-r dark:data-[state=active]:from-gradient-pink dark:data-[state=active]:to-gradient-purple dark:data-[state=active]:text-black font-bold"
-                  >
-                    Story
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="video"
-                    className="rounded-lg data-[state=active]:bg-black data-[state=active]:text-white dark:data-[state=active]:bg-gradient-to-r dark:data-[state=active]:from-gradient-pink dark:data-[state=active]:to-gradient-purple dark:data-[state=active]:text-black font-bold"
-                  >
-                    Video
-                  </TabsTrigger>
-                </TabsList>
-                <TabsContent value="post">
-                  <ContentCreator type="post" />
-                </TabsContent>
-                <TabsContent value="story">
-                  <ContentCreator type="story" />
-                </TabsContent>
-                <TabsContent value="video">
-                  <ContentCreator type="video" />
-                </TabsContent>
-              </Tabs>
+              <StudentExperiences />
             </div>
 
             <div>
