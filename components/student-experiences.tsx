@@ -38,7 +38,7 @@ function ExperienceCard({
   }
 
   return (
-    <div className="group flex flex-col rounded-lg overflow-hidden bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none border-2 border-black dark:dark-rounded-gradient-border transform transition-all duration-300 hover:-translate-y-1">
+    <div className="group flex flex-col rounded-xl overflow-hidden bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none border-4 border-black dark:dark-rounded-gradient-border transform transition-all duration-300 hover:-translate-y-1">
       <div className="relative overflow-hidden">
         {/* Image with 3:4 aspect ratio */}
         <div className="relative aspect-[3/4] overflow-hidden">
