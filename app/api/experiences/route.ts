@@ -22,7 +22,6 @@ interface Experience {
 interface Post {
   _id: ObjectId;
   title: string;
-  description: string;
   userId: ObjectId;
   username: string;
   createdAt: Date;
@@ -94,6 +93,18 @@ export async function GET() {
       .collection('posts')
       .find({ 
         hashtags: "getdrunk" 
+      })
+      .project({
+        _id: 1,
+        title: 1,
+        userId: 1,
+        username: 1,
+        createdAt: 1,
+        likes: 1,
+        hashtags: 1,
+        taggedAccounts: 1,
+        media: 1
+        // description is intentionally excluded
       })
       .sort({ createdAt: -1 }) // Sort by newest first
       .limit(20) // Limit to 20 posts
