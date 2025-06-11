@@ -123,13 +123,6 @@ export default function StudentExperiences() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl sm:text-2xl font-black">STUDENT EXPERIENCES</h2>
-        <Button className="bg-black hover:bg-black/80 text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple dark:text-black dark:hover:brightness-110 rounded-xl border-2 dark:dark-rounded-gradient-border font-bold">
-          <Plus className="h-4 w-4 mr-2" /> Share Experience
-        </Button>
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {experiences.map((exp) => (
           <ExperienceCard key={exp.id} {...exp} />
