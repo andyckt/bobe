@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
+import { ObjectId } from 'mongodb';
 
-// Define the Experience type
+// Define the Experience type for the API response
 interface Experience {
   _id: string;
   username: string;
@@ -17,43 +18,231 @@ interface Experience {
   isGetdrunk?: boolean;
 }
 
+// Define the Post type
+interface Post {
+  _id: ObjectId;
+  title: string;
+  description: string;
+  userId: ObjectId;
+  username: string;
+  createdAt: Date;
+  likes: number;
+  hashtags: string[];
+  taggedAccounts: Array<{
+    username: string;
+    accountType: string;
+  }>;
+  media: Array<{
+    mediaId: ObjectId;
+    position: number;
+    isPrimary: boolean;
+  }>;
+}
+
+// Define the User type
+interface User {
+  _id: ObjectId;
+  username: string;
+  displayName: string;
+  profileImage: string | {
+    micro: string;
+    media: string;
+    original: string;
+  };
+}
+
+// Define the Media type
+interface Media {
+  _id: ObjectId;
+  url?: string;
+  width?: number;
+  height?: number;
+  variants?: {
+    medium?: {
+      url: string;
+      width: number;
+      height: number;
+      cloudinaryId: string;
+    };
+    thumbnail?: {
+      url: string;
+      width: number;
+      height: number;
+      cloudinaryId: string;
+    };
+    large?: {
+      url: string;
+      width: number;
+      height: number;
+      cloudinaryId: string;
+    };
+  };
+  urls?: {
+    medium?: string;
+  };
+  cloudinaryUrl?: string;
+  cloudinaryId?: string;
+  [key: string]: any; // Add index signature to allow string indexing
+}
+
 export async function GET() {
   try {
     const { db } = await connectToDatabase();
     
-    // Get only experiences with the getdrunk hashtag
-    const experiences = await db
-      .collection('experiences')
+    // Get posts with the getdrunk hashtag
+    const posts = await db
+      .collection('posts')
       .find({ 
-        $or: [
-          { hashtags: "getdrunk" },
-          { isGetdrunk: true }
-        ]
+        hashtags: "getdrunk" 
       })
       .sort({ createdAt: -1 }) // Sort by newest first
-      .limit(20) // Limit to 20 experiences
-      .toArray();
+      .limit(20) // Limit to 20 posts
+      .toArray() as Post[];
 
-    if (!experiences || experiences.length === 0) {
-      console.log('No getdrunk experiences found in database');
+    if (!posts || posts.length === 0) {
+      console.log('No getdrunk posts found in database');
       return NextResponse.json({ 
         success: true, 
         data: [] 
       });
     }
 
-    // Transform data for frontend if needed
-    const transformedExperiences = experiences.map((exp: any) => ({
-      _id: exp._id.toString(),
-      username: exp.username,
-      userAvatar: exp.userAvatar,
-      image: exp.image,
-      title: exp.title,
-      venue: exp.venue,
-      likes: exp.likes,
-      aspectRatio: exp.aspectRatio,
-      hashtags: exp.hashtags
-    }));
+    // Collect all unique userIds to fetch user info
+    const userIds = [...new Set(posts.map(post => post.userId))].filter(Boolean);
+    
+    // Fetch user information for all posts
+    const users = await db
+      .collection('users')
+      .find({ 
+        _id: { $in: userIds } 
+      })
+      .toArray() as User[];
+
+    // Create a lookup map for users
+    const userMap: Record<string, User> = {};
+    users.forEach(user => {
+      userMap[user._id.toString()] = user;
+    });
+
+    // Collect all media IDs to fetch image info
+    const mediaIds: ObjectId[] = [];
+    posts.forEach(post => {
+      if (post.media && post.media.length > 0) {
+        // Get the primary media or first one
+        const primaryMedia = post.media.find(m => m.isPrimary) || post.media[0];
+        if (primaryMedia) {
+          mediaIds.push(primaryMedia.mediaId);
+        }
+      }
+    });
+
+    // Fetch media information
+    const mediaItems = await db
+      .collection('media')
+      .find({ 
+        _id: { $in: mediaIds } 
+      })
+      .toArray() as Media[];
+
+    // Create a lookup map for media
+    const mediaMap: Record<string, Media> = {};
+    mediaItems.forEach(media => {
+      mediaMap[media._id.toString()] = media;
+    });
+
+    // Transform data for frontend
+    const transformedExperiences = posts.map((post) => {
+      // Get user info or fallback
+      const userInfo = post.userId ? userMap[post.userId.toString()] : null;
+      const username = userInfo ? userInfo.username : post.username;
+      const displayName = userInfo ? userInfo.displayName : post.username;
+      
+      // Handle profile image which can be either a string or an object with URLs
+      let userAvatar = "";
+      if (userInfo && userInfo.profileImage) {
+        if (typeof userInfo.profileImage === 'string') {
+          userAvatar = userInfo.profileImage;
+        } else if (typeof userInfo.profileImage === 'object') {
+          // Prefer the media size (300x300) for avatars
+          userAvatar = userInfo.profileImage.media || 
+                       userInfo.profileImage.original || 
+                       userInfo.profileImage.micro || 
+                       "";
+        }
+      }
+      
+      // If no avatar found, use a placeholder
+      if (!userAvatar) {
+        userAvatar = `https://i.pravatar.cc/150?u=${post.username}`;
+      }
+      
+      // Get primary media or first one
+      let mediaInfo = null;
+      let imageUrl = "";
+      let aspectRatio = "3:4"; // Default
+      
+      if (post.media && post.media.length > 0) {
+        const primaryMedia = post.media.find(m => m.isPrimary) || post.media[0];
+        if (primaryMedia) {
+          mediaInfo = mediaMap[primaryMedia.mediaId.toString()];
+          
+          if (mediaInfo) {
+            // Use the medium variant URL from the variants object
+            if (mediaInfo.variants && mediaInfo.variants.medium && mediaInfo.variants.medium.url) {
+              imageUrl = mediaInfo.variants.medium.url;
+            } 
+            // Fallback to large variant
+            else if (mediaInfo.variants && mediaInfo.variants.large && mediaInfo.variants.large.url) {
+              imageUrl = mediaInfo.variants.large.url;
+            }
+            // Fallback to thumbnail
+            else if (mediaInfo.variants && mediaInfo.variants.thumbnail && mediaInfo.variants.thumbnail.url) {
+              imageUrl = mediaInfo.variants.thumbnail.url;
+            }
+            // Fallback to any URL field
+            else if (mediaInfo.url) {
+              imageUrl = mediaInfo.url;
+            }
+            
+            // Determine aspect ratio
+            if (mediaInfo.width && mediaInfo.height) {
+              aspectRatio = mediaInfo.width > mediaInfo.height ? "16:9" : "3:4";
+            } else if (mediaInfo.variants && mediaInfo.variants.medium) {
+              const variant = mediaInfo.variants.medium;
+              if (variant.width && variant.height) {
+                aspectRatio = variant.width > variant.height ? "16:9" : "3:4";
+              }
+            }
+          } else {
+            console.log('Media not found for mediaId:', primaryMedia.mediaId.toString());
+          }
+        }
+      }
+      
+      // Get venue info
+      let venue = "";
+      if (post.taggedAccounts && post.taggedAccounts.length > 0) {
+        // Find first account with accountType 'restaurant', 'hotel', or 'venue'
+        const venueAccount = post.taggedAccounts.find(acc => 
+          ['restaurant', 'hotel', 'venue'].includes(acc.accountType)
+        );
+        if (venueAccount) {
+          venue = venueAccount.username;
+        }
+      }
+
+      return {
+        _id: post._id.toString(),
+        username: displayName, // Use display name instead of username
+        userAvatar: userAvatar,
+        image: imageUrl,
+        title: post.title,
+        venue: venue,
+        likes: post.likes || 0,
+        aspectRatio: aspectRatio,
+        hashtags: post.hashtags
+      };
+    }).filter(exp => exp.image); // Only include posts with images
 
     return NextResponse.json({ 
       success: true, 
