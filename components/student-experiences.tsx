@@ -13,7 +13,6 @@ interface ExperienceCardProps {
   userAvatar: string
   image: string
   title: string
-  description: string
   venue: string
   likes: number
   aspectRatio: "3:4" | "16:9"
@@ -26,7 +25,6 @@ function ExperienceCard({
   userAvatar,
   image,
   title,
-  description,
   venue,
   likes,
   aspectRatio,

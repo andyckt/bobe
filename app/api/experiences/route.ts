@@ -49,7 +49,6 @@ export async function GET() {
       userAvatar: exp.userAvatar,
       image: exp.image,
       title: exp.title,
-      description: exp.description,
       venue: exp.venue,
       likes: exp.likes,
       aspectRatio: exp.aspectRatio,
