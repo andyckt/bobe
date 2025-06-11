@@ -4,9 +4,11 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Heart, Wine } from "lucide-react"
+import { Heart, Wine, Hash } from "lucide-react"
+import { useExperiences } from "@/hooks/useExperiences"
 
 interface ExperienceCardProps {
+  _id: string
   username: string
   userAvatar: string
   image: string
@@ -15,9 +17,11 @@ interface ExperienceCardProps {
   venue: string
   likes: number
   aspectRatio: "3:4" | "16:9"
+  hashtags?: string[]
 }
 
 function ExperienceCard({
+  _id,
   username,
   userAvatar,
   image,
@@ -26,6 +30,7 @@ function ExperienceCard({
   venue,
   likes,
   aspectRatio,
+  hashtags
 }: ExperienceCardProps) {
   const [liked, setLiked] = useState(false)
   const [likeCount, setLikeCount] = useState(likes)
@@ -41,7 +46,7 @@ function ExperienceCard({
 
   return (
     <div className="transform transition-all duration-300 hover:-translate-y-1">
-      <Card className="border-4 overflow-hidden rounded-xl bg-white dark:bg-zinc-900 dark:dark-rounded-gradient-border">
+      <Card className="border-4 border-black overflow-hidden rounded-xl bg-white dark:bg-zinc-900 dark:dark-rounded-gradient-border">
         {/* Image with dynamic aspect ratio */}
         <div className={`relative ${aspectRatio === "16:9" ? "aspect-video" : "aspect-[3/4] max-h-[360px]"} w-full overflow-hidden`}>
           <img 
@@ -53,6 +58,12 @@ function ExperienceCard({
           <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1 flex items-center">
             <Wine className="h-3 w-3 text-white mr-1.5" />
             <span className="text-xs font-medium text-white">{venue}</span>
+          </div>
+          
+          {/* GetDrunk badge */}
+          <div className="absolute top-2 right-2 bg-gradient-to-r from-pink-500 to-orange-500 rounded-full px-3 py-1 flex items-center">
+            <Hash className="h-3 w-3 text-white mr-1.5" />
+            <span className="text-xs font-bold text-white">getdrunk</span>
           </div>
         </div>
         
@@ -89,102 +100,63 @@ function ExperienceCard({
   )
 }
 
-// All experiences data combined - alternating aspect ratios
-const allExperiences = [
-  // First 3:4 experience
-  {
-    id: 1,
-    username: "Emma_Lin",
-    userAvatar: "https://i.pravatar.cc/150?img=1",
-    image: "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=2274&auto=format&fit=crop",
-    title: "Electric Night at TAXX",
-    description: "The DJ set was incredible! Met students from all over the world. The drinks were reasonably priced for such a high-end club.",
-    venue: "TAXX Nightclub",
-    likes: 127,
-    aspectRatio: "3:4" as const,
-  },
-  // First 16:9 experience
-  {
-    id: 4,
-    username: "Alex_Wang",
-    userAvatar: "https://i.pravatar.cc/150?img=11",
-    image: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=2070&auto=format&fit=crop",
-    title: "Jazz Night at JZ Club",
-    description: "Incredible live jazz performances every night. The cocktails are expertly crafted and the atmosphere is intimate and sophisticated.",
-    venue: "JZ Club",
-    likes: 142,
-    aspectRatio: "16:9" as const,
-  },
-  // Second 3:4 experience
-  {
-    id: 2,
-    username: "Marco_Li",
-    userAvatar: "https://i.pravatar.cc/150?img=8",
-    image: "https://images.unsplash.com/photo-1541532713592-79a0317b6b77?q=80&w=2276&auto=format&fit=crop",
-    title: "Rooftop Vibes at Bar Rouge",
-    description: "The view of the Pudong skyline at night is breathtaking. Perfect spot to start the evening before heading to clubs. Cocktails are pricey but worth it.",
-    venue: "Bar Rouge",
-    likes: 89,
-    aspectRatio: "3:4" as const,
-  },
-  // Second 16:9 experience
-  {
-    id: 5,
-    username: "Olivia_Chen",
-    userAvatar: "https://i.pravatar.cc/150?img=16",
-    image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=2070&auto=format&fit=crop",
-    title: "Rooftop Party at Vue Bar",
-    description: "The 360-degree view of Shanghai from this rooftop bar is unmatched. Perfect for sunset drinks before hitting the clubs.",
-    venue: "Vue Bar",
-    likes: 98,
-    aspectRatio: "16:9" as const,
-  },
-  // Third 3:4 experience
-  {
-    id: 3,
-    username: "Sophie_Zhang",
-    userAvatar: "https://i.pravatar.cc/150?img=5",
-    image: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=2069&auto=format&fit=crop",
-    title: "Underground Gems at Found 158",
-    description: "This underground venue is a hidden treasure! So many bars and clubs in one place. We started at Shrine and ended at ARKHAM. Great prices for students!",
-    venue: "Found 158",
-    likes: 156,
-    aspectRatio: "3:4" as const,
-  },
-  // Third 16:9 experience
-  {
-    id: 6,
-    username: "Jackson_Liu",
-    userAvatar: "https://i.pravatar.cc/150?img=20",
-    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=2074&auto=format&fit=crop",
-    title: "Underground Vibes at Arkham",
-    description: "One of Shanghai's best clubs for electronic music. International DJs, great sound system, and an energetic crowd.",
-    venue: "Arkham",
-    likes: 176,
-    aspectRatio: "16:9" as const,
-  }
-];
-
 interface StudentExperiencesProps {
   aspectRatio?: "3:4" | "16:9" | "all";
   limit?: number;
 }
 
 export default function StudentExperiences({ aspectRatio = "all", limit }: StudentExperiencesProps) {
-  // Filter experiences based on aspect ratio
-  let experiences = allExperiences;
+  const { experiences, loading, error } = useExperiences(aspectRatio, limit);
   
-  if (aspectRatio === "3:4") {
-    experiences = allExperiences.filter(exp => exp.aspectRatio === "3:4");
-  } else if (aspectRatio === "16:9") {
-    experiences = allExperiences.filter(exp => exp.aspectRatio === "16:9");
-  }
-  
-  // Apply limit if provided
-  if (limit && limit > 0) {
-    experiences = experiences.slice(0, limit);
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <h2 className="text-xl sm:text-2xl font-black mb-4">GETDRUNK EXPERIENCES</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(6)].map((_, index) => (
+            <div key={index} className="animate-pulse">
+              <div className="bg-gray-200 dark:bg-gray-700 rounded-xl h-64 w-full"></div>
+              <div className="mt-2 bg-gray-200 dark:bg-gray-700 h-4 w-3/4 rounded"></div>
+              <div className="mt-2 flex justify-between">
+                <div className="bg-gray-200 dark:bg-gray-700 h-4 w-1/4 rounded"></div>
+                <div className="bg-gray-200 dark:bg-gray-700 h-4 w-1/4 rounded"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   }
 
+  // Show error state
+  if (error) {
+    return (
+      <div>
+        <h2 className="text-xl sm:text-2xl font-black mb-4">GETDRUNK EXPERIENCES</h2>
+        <div className="p-4 border-2 border-red-500 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300">
+          <p>Error loading experiences: {error}</p>
+          <Button variant="outline" className="mt-2" onClick={() => window.location.reload()}>
+            Try Again
+          </Button>
+        </div>
+      </div>
+    );
+  }
+  
+  // If no experiences found, show empty state
+  if (experiences.length === 0) {
+    return (
+      <div>
+        <h2 className="text-xl sm:text-2xl font-black mb-4">GETDRUNK EXPERIENCES</h2>
+        <div className="text-center p-8 border-4 border-dashed border-gray-300 dark:border-gray-700 rounded-xl">
+          <p className="text-lg mb-4">No getdrunk experiences found</p>
+          <Button>Share Your Nightlife Experience</Button>
+        </div>
+      </div>
+    );
+  }
+  
   // Create separate columns for masonry layout
   const columnsCount = {
     mobile: 1,
@@ -208,10 +180,12 @@ export default function StudentExperiences({ aspectRatio = "all", limit }: Stude
 
   return (
     <div className="space-y-6">
+      <h2 className="text-xl sm:text-2xl font-black mb-4">GETDRUNK EXPERIENCES</h2>
+      
       {/* Mobile layout (1 column) */}
       <div className="grid grid-cols-1 gap-6 md:hidden">
         {mobileColumns[0].map((exp) => (
-          <ExperienceCard key={exp.id} {...exp} />
+          <ExperienceCard key={exp._id} {...exp} />
         ))}
       </div>
       
@@ -220,7 +194,7 @@ export default function StudentExperiences({ aspectRatio = "all", limit }: Stude
         {tabletColumns.map((column, colIndex) => (
           <div key={colIndex} className="flex flex-col gap-6">
             {column.map((exp) => (
-              <ExperienceCard key={exp.id} {...exp} />
+              <ExperienceCard key={exp._id} {...exp} />
             ))}
           </div>
         ))}
@@ -231,7 +205,7 @@ export default function StudentExperiences({ aspectRatio = "all", limit }: Stude
         {desktopColumns.map((column, colIndex) => (
           <div key={colIndex} className="flex flex-col gap-6">
             {column.map((exp) => (
-              <ExperienceCard key={exp.id} {...exp} />
+              <ExperienceCard key={exp._id} {...exp} />
             ))}
           </div>
         ))}
