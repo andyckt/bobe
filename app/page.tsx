@@ -146,12 +146,12 @@ export default function Dashboard() {
             </div>
 
             <div className="mb-10">
-              <StudentExperiences />
+              <h2 className="text-xl sm:text-2xl font-black mb-4">CONTENT STUDIO</h2>
+              <StudioSelector />
             </div>
 
             <div>
-              <h2 className="text-xl sm:text-2xl font-black mb-4">CONTENT STUDIO</h2>
-              <StudioSelector />
+              <StudentExperiences />
             </div>
           </div>
         </div>
