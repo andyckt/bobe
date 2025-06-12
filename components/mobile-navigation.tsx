@@ -22,7 +22,7 @@ export default function MobileNavigation({ activeTab, onTabChange }: MobileNavig
             onClick={() => onTabChange("dashboard")}
             className={`flex items-center gap-2 text-lg font-bold p-3 w-full text-left rounded-xl ${activeTab === "dashboard" ? "bg-black text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple" : "hover:bg-black/10 dark:hover:bg-white/10"}`}
           >
-            Dashboard
+            Discovery
           </button>
           <button
             onClick={() => onTabChange("club")}

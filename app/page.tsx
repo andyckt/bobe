@@ -67,7 +67,7 @@ export default function Dashboard() {
                 onClick={() => setActiveTab("dashboard")}
                 className={`flex items-center gap-2 text-lg font-bold p-3 w-full text-left rounded-xl ${activeTab === "dashboard" ? "bg-black text-white dark:bg-white dark:text-black" : "hover:bg-black/10 dark:hover:bg-white/10"}`}
               >
-                Dashboard
+                Discovery
               </button>
               <button
                 onClick={() => setActiveTab("club")}

@@ -139,7 +139,6 @@ export default function StudentExperiences({ aspectRatio = "all" }: StudentExper
   if (loading && experiences.length === 0) {
     return (
       <div className="space-y-6">
-        <h2 className="text-xl sm:text-2xl font-black mb-4">NIGHTLIFE EXPERIENCES</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[...Array(6)].map((_, index) => (
             <div key={index} className="animate-pulse">
@@ -160,7 +159,6 @@ export default function StudentExperiences({ aspectRatio = "all" }: StudentExper
   if (error) {
     return (
       <div>
-        <h2 className="text-xl sm:text-2xl font-black mb-4">NIGHTLIFE EXPERIENCES</h2>
         <div className="p-4 border-2 border-red-500 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300">
           <p>Error loading experiences: {error}</p>
           <Button variant="outline" className="mt-2" onClick={() => window.location.reload()}>
@@ -175,7 +173,6 @@ export default function StudentExperiences({ aspectRatio = "all" }: StudentExper
   if (initialLoadDone && experiences.length === 0) {
     return (
       <div>
-        <h2 className="text-xl sm:text-2xl font-black mb-4">NIGHTLIFE EXPERIENCES</h2>
         <div className="text-center p-8 border-4 border-dashed border-gray-300 dark:border-gray-700 rounded-xl">
           <p className="text-lg mb-4">No nightlife experiences found</p>
           <Button>Share Your Nightlife Experience</Button>
@@ -207,7 +204,6 @@ export default function StudentExperiences({ aspectRatio = "all" }: StudentExper
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl sm:text-2xl font-black mb-4">NIGHTLIFE EXPERIENCES</h2>
       
       {/* Mobile layout (2 columns staggered) */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4 md:hidden">
