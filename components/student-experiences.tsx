@@ -246,12 +246,27 @@ export default function StudentExperiences({ aspectRatio = "all" }: StudentExper
       {hasMore && (
         <div 
           ref={loaderRef} 
-          className="flex justify-center items-center py-8"
+          className="flex justify-center items-center py-6"
         >
           {loading && (
-            <div className="flex items-center gap-2">
-              <Loader2 className="h-5 w-5 animate-spin text-gray-500" />
-              <span className="text-sm text-gray-500">Loading more experiences...</span>
+            <div className="w-6 h-6 relative">
+              {/* Light mode spinner (black with transparent top) */}
+              <div className="absolute inset-0 rounded-full animate-spin border-2 border-black border-t-transparent dark:hidden"></div>
+              
+              {/* Dark mode spinner (gradient) */}
+              <div className="hidden dark:block absolute inset-0">
+                <div className="w-full h-full rounded-full animate-spin" 
+                  style={{ 
+                    borderWidth: '2px',
+                    borderStyle: 'solid',
+                    borderColor: 'transparent',
+                    borderTopColor: 'transparent',
+                    borderRightColor: '#ec4899',
+                    borderBottomColor: '#9333ea',
+                    borderLeftColor: '#9333ea'
+                  }}>
+                </div>
+              </div>
             </div>
           )}
         </div>
