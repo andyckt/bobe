@@ -1,0 +1,26 @@
+
+
+
+what is this, I found it on some source:
+// Inside the {activeTab === "Club" && (...)} block
+
+<motion.h1
+  className="text-6xl md:text-8xl font-black mb-6 leading-tight"
+  style={{
+    background: "linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5)",
+    backgroundSize: "400% 400%",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    backgroundClip: "text",
+  }}
+  animate={{
+    backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+  }}
+  transition={{
+    duration: 5,
+    repeat: Number.POSITIVE_INFINITY,
+    ease: "linear",
+  }}
+>
+  {clubContent.hero.title} // This is where "INS Park: Shanghai's Wildest Club Playground" is rendered
+</motion.h1>
