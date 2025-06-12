@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -10,6 +13,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 export default function Dashboard() {
+  const [activeTab, setActiveTab] = useState("dashboard")
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-zinc-900 dark:to-black p-2 sm:p-4 md:p-8">
       {/* Glassmorphic container */}
@@ -33,7 +38,7 @@ export default function Dashboard() {
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="border-r-4 border-black dark:border-white p-0">
-                  <MobileNavigation />
+                  <MobileNavigation onTabChange={setActiveTab} activeTab={activeTab} />
                 </SheetContent>
               </Sheet>
             </div>
@@ -58,30 +63,30 @@ export default function Dashboard() {
           {/* Sidebar - Desktop only */}
           <div className="hidden md:block border-r-4 border-black dark:dark-gradient-border bg-white/40 dark:bg-transparent p-4">
             <nav className="space-y-2">
-              <Link
-                href="#"
-                className="flex items-center gap-2 text-lg font-bold p-3 bg-black text-white dark:bg-white dark:text-black rounded-xl"
+              <button
+                onClick={() => setActiveTab("dashboard")}
+                className={`flex items-center gap-2 text-lg font-bold p-3 w-full text-left rounded-xl ${activeTab === "dashboard" ? "bg-black text-white dark:bg-white dark:text-black" : "hover:bg-black/10 dark:hover:bg-white/10"}`}
               >
                 Dashboard
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center gap-2 text-lg font-bold p-3 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl"
+              </button>
+              <button
+                onClick={() => setActiveTab("club")}
+                className={`flex items-center gap-2 text-lg font-bold p-3 w-full text-left rounded-xl ${activeTab === "club" ? "bg-black text-white dark:bg-white dark:text-black" : "hover:bg-black/10 dark:hover:bg-white/10"}`}
               >
                 Club
-              </Link>
-              <Link
-                href="/bar"
-                className="flex items-center gap-2 text-lg font-bold p-3 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl"
+              </button>
+              <button
+                onClick={() => setActiveTab("bar")}
+                className={`flex items-center gap-2 text-lg font-bold p-3 w-full text-left rounded-xl ${activeTab === "bar" ? "bg-black text-white dark:bg-white dark:text-black" : "hover:bg-black/10 dark:hover:bg-white/10"}`}
               >
                 Bar
-              </Link>
-              <Link
-                href="/who-are-we"
-                className="flex items-center gap-2 text-lg font-bold p-3 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl"
+              </button>
+              <button
+                onClick={() => setActiveTab("who-are-we")}
+                className={`flex items-center gap-2 text-lg font-bold p-3 w-full text-left rounded-xl ${activeTab === "who-are-we" ? "bg-black text-white dark:bg-white dark:text-black" : "hover:bg-black/10 dark:hover:bg-white/10"}`}
               >
                 Who are we?
-              </Link>
+              </button>
             </nav>
 
             <div className="mt-8">
@@ -117,42 +122,83 @@ export default function Dashboard() {
 
           {/* Main content */}
           <div className="overflow-auto p-4 sm:p-6">
-            <div className="mb-8">
-              <h2 className="text-xl sm:text-2xl font-black mb-4">CONNECTED ACCOUNTS</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <SocialMediaCard
-                  platform="Instagram"
-                  username="@yourbrand"
-                  icon={<Instagram className="h-6 w-6" />}
-                  color="bg-gradient-to-br from-purple-500 to-pink-500"
-                />
-                <SocialMediaCard
-                  platform="Twitter"
-                  username="@yourbrand"
-                  icon={<Twitter className="h-6 w-6" />}
-                  color="bg-blue-400"
-                />
-                <SocialMediaCard
-                  platform="LinkedIn"
-                  username="Your Brand"
-                  icon={<Linkedin className="h-6 w-6" />}
-                  color="bg-blue-600"
-                />
-                <Button className="h-full min-h-[120px] border-4 border-dashed border-black dark:dark-rounded-gradient-border rounded-xl flex flex-col items-center justify-center gap-2 bg-white/50 hover:bg-white/70 dark:bg-zinc-800/50 dark:hover:bg-zinc-800/70">
-                  <Plus className="h-8 w-8" />
-                  <span className="font-bold">Add Platform</span>
-                </Button>
+            {activeTab === "dashboard" && (
+              <>
+                <div className="mb-8">
+                  <h2 className="text-xl sm:text-2xl font-black mb-4">CONNECTED ACCOUNTS</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <SocialMediaCard
+                      platform="Instagram"
+                      username="@yourbrand"
+                      icon={<Instagram className="h-6 w-6" />}
+                      color="bg-gradient-to-br from-purple-500 to-pink-500"
+                    />
+                    <SocialMediaCard
+                      platform="Twitter"
+                      username="@yourbrand"
+                      icon={<Twitter className="h-6 w-6" />}
+                      color="bg-blue-400"
+                    />
+                    <SocialMediaCard
+                      platform="LinkedIn"
+                      username="Your Brand"
+                      icon={<Linkedin className="h-6 w-6" />}
+                      color="bg-blue-600"
+                    />
+                    <Button className="h-full min-h-[120px] border-4 border-dashed border-black dark:dark-rounded-gradient-border rounded-xl flex flex-col items-center justify-center gap-2 bg-white/50 hover:bg-white/70 dark:bg-zinc-800/50 dark:hover:bg-zinc-800/70">
+                      <Plus className="h-8 w-8" />
+                      <span className="font-bold">Add Platform</span>
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="mb-10">
+                  <h2 className="text-xl sm:text-2xl font-black mb-4">CONTENT STUDIO</h2>
+                  <StudioSelector />
+                </div>
+
+                <div>
+                  <StudentExperiences />
+                </div>
+              </>
+            )}
+
+            {activeTab === "club" && (
+              <div className="flex flex-col items-center justify-center min-h-[500px] text-center">
+                <div className="bg-white/70 dark:bg-zinc-800/70 p-10 border-4 border-black dark:dark-rounded-gradient-border rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6">Club Section</h2>
+                  <p className="text-xl mb-8">Coming Soon!</p>
+                  <p className="text-lg text-gray-700 dark:text-gray-300 max-w-md mx-auto">
+                    We're working hard to bring you the best nightclub experiences in Shanghai. 
+                    Check back soon for exciting updates!
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
 
-            <div className="mb-10">
-              <h2 className="text-xl sm:text-2xl font-black mb-4">CONTENT STUDIO</h2>
-              <StudioSelector />
-            </div>
+            {activeTab === "bar" && (
+              <div className="flex flex-col items-center justify-center min-h-[500px] text-center">
+                <div className="bg-white/70 dark:bg-zinc-800/70 p-10 border-4 border-black dark:dark-rounded-gradient-border rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6">Bar Content</h2>
+                  <p className="text-xl mb-6">Discover Shanghai's best bars!</p>
+                  <Button className="bg-black hover:bg-black/80 text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple dark:text-black dark:hover:brightness-110 rounded-xl border-2 border-black dark:dark-rounded-gradient-border font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-sm">
+                    <Link href="/bar" className="text-lg px-6 py-2">View Bar Page</Link>
+                  </Button>
+                </div>
+              </div>
+            )}
 
-            <div>
-              <StudentExperiences />
-            </div>
+            {activeTab === "who-are-we" && (
+              <div className="flex flex-col items-center justify-center min-h-[500px] text-center">
+                <div className="bg-white/70 dark:bg-zinc-800/70 p-10 border-4 border-black dark:dark-rounded-gradient-border rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6">Who Are We?</h2>
+                  <p className="text-xl mb-6">Learn about our mission and team!</p>
+                  <Button className="bg-black hover:bg-black/80 text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple dark:text-black dark:hover:brightness-110 rounded-xl border-2 border-black dark:dark-rounded-gradient-border font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-sm">
+                    <Link href="/who-are-we" className="text-lg px-6 py-2">View Team Page</Link>
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

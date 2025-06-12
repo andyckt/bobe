@@ -1,8 +1,15 @@
-import Link from "next/link"
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Instagram, Linkedin, Twitter, Youtube } from "lucide-react"
+import { Dispatch, SetStateAction } from "react"
 
-export default function MobileNavigation() {
+interface MobileNavigationProps {
+  activeTab: string;
+  onTabChange: Dispatch<SetStateAction<string>>;
+}
+
+export default function MobileNavigation({ activeTab, onTabChange }: MobileNavigationProps) {
   return (
     <div className="h-full bg-white/40 dark:bg-zinc-900/80 backdrop-blur-md flex flex-col">
       <div className="p-6 border-b-4 border-black dark:dark-gradient-border">
@@ -11,30 +18,30 @@ export default function MobileNavigation() {
 
       <div className="flex-1 overflow-auto p-4">
         <nav className="space-y-2 mb-8">
-          <Link
-            href="#"
-            className="flex items-center gap-2 text-lg font-bold p-3 bg-black text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple rounded-xl"
+          <button
+            onClick={() => onTabChange("dashboard")}
+            className={`flex items-center gap-2 text-lg font-bold p-3 w-full text-left rounded-xl ${activeTab === "dashboard" ? "bg-black text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple" : "hover:bg-black/10 dark:hover:bg-white/10"}`}
           >
             Dashboard
-          </Link>
-          <Link
-            href="#"
-            className="flex items-center gap-2 text-lg font-bold p-3 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl"
+          </button>
+          <button
+            onClick={() => onTabChange("club")}
+            className={`flex items-center gap-2 text-lg font-bold p-3 w-full text-left rounded-xl ${activeTab === "club" ? "bg-black text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple" : "hover:bg-black/10 dark:hover:bg-white/10"}`}
           >
             Club
-          </Link>
-          <Link
-            href="/bar"
-            className="flex items-center gap-2 text-lg font-bold p-3 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl"
+          </button>
+          <button
+            onClick={() => onTabChange("bar")}
+            className={`flex items-center gap-2 text-lg font-bold p-3 w-full text-left rounded-xl ${activeTab === "bar" ? "bg-black text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple" : "hover:bg-black/10 dark:hover:bg-white/10"}`}
           >
             Bar
-          </Link>
-          <Link
-            href="/who-are-we"
-            className="flex items-center gap-2 text-lg font-bold p-3 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl"
+          </button>
+          <button
+            onClick={() => onTabChange("who-are-we")}
+            className={`flex items-center gap-2 text-lg font-bold p-3 w-full text-left rounded-xl ${activeTab === "who-are-we" ? "bg-black text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple" : "hover:bg-black/10 dark:hover:bg-white/10"}`}
           >
             Who are we?
-          </Link>
+          </button>
         </nav>
 
         <div>
