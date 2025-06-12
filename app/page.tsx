@@ -12,6 +12,9 @@ import MobileNavigation from "@/components/mobile-navigation"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ThemeToggle } from "@/components/theme-toggle"
 import DynamicFrameLayout from "@/components/DynamicFrameLayout"
+import ClubTabContent from "@/components/ClubTabContent"
+import BarTabContent from "@/components/BarTabContent"
+import WhoAreWeTabContent from "@/components/WhoAreWeTabContent"
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("dashboard")
@@ -139,40 +142,15 @@ export default function Dashboard() {
             )}
 
             {activeTab === "club" && (
-              <div className="flex flex-col items-center justify-center min-h-[500px] text-center">
-                <div className="bg-white/70 dark:bg-zinc-800/70 p-10 border-4 border-black dark:dark-rounded-gradient-border rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg">
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6">Club Content</h2>
-                  <p className="text-xl mb-6">Discover Shanghai's best nightclubs!</p>
-                  <Button className="bg-black hover:bg-black/80 text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple dark:text-black dark:hover:brightness-110 rounded-xl border-2 border-black dark:dark-rounded-gradient-border font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-sm">
-                    {/* Removed href for now */}
-                    View nightclubs Page
-                  </Button>
-                </div>
-              </div>
+              <ClubTabContent />
             )}
 
             {activeTab === "bar" && (
-              <div className="flex flex-col items-center justify-center min-h-[500px] text-center">
-                <div className="bg-white/70 dark:bg-zinc-800/70 p-10 border-4 border-black dark:dark-rounded-gradient-border rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg">
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6">Bar Content</h2>
-                  <p className="text-xl mb-6">Discover Shanghai's best bars!</p>
-                  <Button className="bg-black hover:bg-black/80 text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple dark:text-black dark:hover:brightness-110 rounded-xl border-2 border-black dark:dark-rounded-gradient-border font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-sm">
-                    <Link href="/bar" className="text-lg px-6 py-2">View Bar Page</Link>
-                  </Button>
-                </div>
-              </div>
+              <BarTabContent />
             )}
 
             {activeTab === "who-are-we" && (
-              <div className="flex flex-col items-center justify-center min-h-[500px] text-center">
-                <div className="bg-white/70 dark:bg-zinc-800/70 p-10 border-4 border-black dark:dark-rounded-gradient-border rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg">
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6">Who Are We?</h2>
-                  <p className="text-xl mb-6">Learn about our mission and team!</p>
-                  <Button className="bg-black hover:bg-black/80 text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple dark:text-black dark:hover:brightness-110 rounded-xl border-2 border-black dark:dark-rounded-gradient-border font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-sm">
-                    <Link href="/who-are-we" className="text-lg px-6 py-2">View Team Page</Link>
-                  </Button>
-                </div>
-              </div>
+              <WhoAreWeTabContent />
             )}
           </div>
         </div>
