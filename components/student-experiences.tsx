@@ -47,7 +47,7 @@ function ExperienceCard({
     <div className="transform transition-all duration-300 hover:-translate-y-1">
       <Card className="border-2 sm:border-4 border-black overflow-hidden rounded-xl bg-white dark:bg-zinc-900 dark:dark-rounded-gradient-border">
         {/* Image with dynamic aspect ratio */}
-        <div className={`relative ${aspectRatio === "16:9" ? "aspect-video" : "aspect-[3/4] max-h-[360px]"} w-full overflow-hidden`}>
+        <div className={`relative ${aspectRatio === "16:9" ? "aspect-video" : "aspect-[3/4] max-h-[360px]"} w-full overflow-hidden rounded-xl`}>
           {!imageLoaded && (
             <div className="absolute inset-0 bg-gray-200 dark:bg-gray-800 animate-pulse" />
           )}
