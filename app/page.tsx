@@ -11,6 +11,7 @@ import StudioSelector from "@/components/studio-selector"
 import MobileNavigation from "@/components/mobile-navigation"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ThemeToggle } from "@/components/theme-toggle"
+import DynamicFrameLayout from "@/components/DynamicFrameLayout"
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("dashboard")
@@ -164,14 +165,10 @@ export default function Dashboard() {
             )}
 
             {activeTab === "club" && (
-              <div className="flex flex-col items-center justify-center min-h-[500px] text-center">
-                <div className="bg-white/70 dark:bg-zinc-800/70 p-10 border-4 border-black dark:dark-rounded-gradient-border rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg">
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6">Club Section</h2>
-                  <p className="text-xl mb-8">Coming Soon!</p>
-                  <p className="text-lg text-gray-700 dark:text-gray-300 max-w-md mx-auto">
-                    We're working hard to bring you the best nightclub experiences in Shanghai. 
-                    Check back soon for exciting updates!
-                  </p>
+              <div className="min-h-[500px]">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 text-center">SHANGHAI CLUBS</h2>
+                <div className="aspect-[16/9] w-full h-[calc(100vh-12rem)]">
+                  <DynamicFrameLayout />
                 </div>
               </div>
             )}
