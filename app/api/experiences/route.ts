@@ -10,7 +10,7 @@ interface Experience {
   image: string;
   title: string;
   description: string;
-  venue: string;
+  merchant: string;
   likes: number;
   aspectRatio: "3:4" | "16:9";
   createdAt: Date;
@@ -230,15 +230,27 @@ export async function GET() {
         }
       }
       
-      // Get venue info
-      let venue = "";
+      // Get merchant info
+      let merchant = "";
       if (post.taggedAccounts && post.taggedAccounts.length > 0) {
-        // Find first account with accountType 'restaurant', 'hotel', or 'venue'
-        const venueAccount = post.taggedAccounts.find(acc => 
-          ['restaurant', 'hotel', 'venue'].includes(acc.accountType)
+        // Try to find accounts with various types that could represent merchants
+        const merchantAccount = post.taggedAccounts.find(acc => 
+          ['restaurant', 'hotel', 'venue', 'bar', 'club', 'business'].includes(acc.accountType?.toLowerCase?.() || '')
         );
-        if (venueAccount) {
-          venue = venueAccount.username;
+        
+        // If we found a merchant account, use its username
+        if (merchantAccount) {
+          merchant = merchantAccount.username;
+        } else {
+          // If no specific merchant account found, use the first tagged account as fallback
+          merchant = post.taggedAccounts[0].username;
+        }
+      } else {
+        // Fallback: try to extract merchant from title or other fields
+        const titleWords = post.title.split(' ');
+        if (titleWords.length > 0 && titleWords[0].length > 3) {
+          // Use first word of title as last resort if it's long enough
+          merchant = titleWords[0];
         }
       }
 
@@ -248,7 +260,7 @@ export async function GET() {
         userAvatar: userAvatar,
         image: imageUrl,
         title: post.title,
-        venue: venue,
+        merchant: merchant,
         likes: post.likes || 0,
         aspectRatio: aspectRatio,
         hashtags: post.hashtags

@@ -13,7 +13,7 @@ interface ExperienceCardProps {
   userAvatar: string
   image: string
   title: string
-  venue: string
+  merchant: string
   likes: number
   aspectRatio: "3:4" | "16:9"
   hashtags?: string[]
@@ -25,7 +25,7 @@ function ExperienceCard({
   userAvatar,
   image,
   title,
-  venue,
+  merchant,
   likes,
   aspectRatio,
   hashtags
@@ -49,13 +49,13 @@ function ExperienceCard({
         <div className={`relative ${aspectRatio === "16:9" ? "aspect-video" : "aspect-[3/4] max-h-[360px]"} w-full overflow-hidden`}>
           <img 
             src={image} 
-            alt={venue} 
+            alt={merchant} 
             className="w-full h-full object-cover"
           />
-          {/* Venue name overlay */}
+          {/* Merchant name overlay */}
           <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1 flex items-center">
             <Wine className="h-3 w-3 text-white mr-1.5" />
-            <span className="text-xs font-medium text-white">{venue}</span>
+            <span className="text-xs font-medium text-white">{merchant}</span>
           </div>
         </div>
         

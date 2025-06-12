@@ -6,7 +6,7 @@ interface Experience {
   userAvatar: string;
   image: string;
   title: string;
-  venue: string;
+  merchant: string;
   likes: number;
   aspectRatio: "3:4" | "16:9";
   hashtags?: string[];
