@@ -1,10 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Heart, Wine } from "lucide-react"
+import { Heart, Wine, Loader2 } from "lucide-react"
 import { useExperiences } from "@/hooks/useExperiences"
 
 interface ExperienceCardProps {
@@ -32,6 +32,7 @@ function ExperienceCard({
 }: ExperienceCardProps) {
   const [liked, setLiked] = useState(false)
   const [likeCount, setLikeCount] = useState(likes)
+  const [imageLoaded, setImageLoaded] = useState(false)
 
   const handleLike = () => {
     if (liked) {
@@ -47,10 +48,15 @@ function ExperienceCard({
       <Card className="border-4 border-black overflow-hidden rounded-xl bg-white dark:bg-zinc-900 dark:dark-rounded-gradient-border">
         {/* Image with dynamic aspect ratio */}
         <div className={`relative ${aspectRatio === "16:9" ? "aspect-video" : "aspect-[3/4] max-h-[360px]"} w-full overflow-hidden`}>
+          {!imageLoaded && (
+            <div className="absolute inset-0 bg-gray-200 dark:bg-gray-800 animate-pulse" />
+          )}
           <img 
             src={image} 
             alt={merchant} 
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+            onLoad={() => setImageLoaded(true)}
+            loading="lazy"
           />
           {/* Merchant name overlay */}
           <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1 flex items-center">
@@ -97,11 +103,40 @@ interface StudentExperiencesProps {
   limit?: number;
 }
 
-export default function StudentExperiences({ aspectRatio = "all", limit }: StudentExperiencesProps) {
-  const { experiences, loading, error } = useExperiences(aspectRatio, limit);
+export default function StudentExperiences({ aspectRatio = "all" }: StudentExperiencesProps) {
+  const { experiences, loading, error, hasMore, loadMore, initialLoadDone } = useExperiences(aspectRatio, 12);
+  const loaderRef = useRef<HTMLDivElement | null>(null);
   
-  // Show loading state
-  if (loading) {
+  // Set up intersection observer for infinite scrolling
+  const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
+    const [target] = entries;
+    if (target.isIntersecting && hasMore && !loading && initialLoadDone) {
+      loadMore();
+    }
+  }, [loadMore, hasMore, loading, initialLoadDone]);
+  
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '100px',
+      threshold: 0.1,
+    };
+    
+    const observer = new IntersectionObserver(handleObserver, options);
+    
+    if (loaderRef.current) {
+      observer.observe(loaderRef.current);
+    }
+    
+    return () => {
+      if (loaderRef.current) {
+        observer.unobserve(loaderRef.current);
+      }
+    };
+  }, [handleObserver]);
+  
+  // Show initial loading state
+  if (loading && experiences.length === 0) {
     return (
       <div className="space-y-6">
         <h2 className="text-xl sm:text-2xl font-black mb-4">NIGHTLIFE EXPERIENCES</h2>
@@ -137,7 +172,7 @@ export default function StudentExperiences({ aspectRatio = "all", limit }: Stude
   }
   
   // If no experiences found, show empty state
-  if (experiences.length === 0) {
+  if (initialLoadDone && experiences.length === 0) {
     return (
       <div>
         <h2 className="text-xl sm:text-2xl font-black mb-4">NIGHTLIFE EXPERIENCES</h2>
@@ -202,6 +237,21 @@ export default function StudentExperiences({ aspectRatio = "all", limit }: Stude
           </div>
         ))}
       </div>
+      
+      {/* Loading indicator and intersection observer target */}
+      {hasMore && (
+        <div 
+          ref={loaderRef} 
+          className="flex justify-center items-center py-8"
+        >
+          {loading && (
+            <div className="flex items-center gap-2">
+              <Loader2 className="h-5 w-5 animate-spin text-gray-500" />
+              <span className="text-sm text-gray-500">Loading more experiences...</span>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }

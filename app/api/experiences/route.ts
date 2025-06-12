@@ -84,16 +84,32 @@ interface Media {
   [key: string]: any; // Add index signature to allow string indexing
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const { db } = await connectToDatabase();
+    
+    // Get URL parameters
+    const url = new URL(request.url);
+    const cursor = url.searchParams.get('cursor');
+    const limit = parseInt(url.searchParams.get('limit') || '10', 10);
+    
+    // Build query for posts with the getdrunk hashtag
+    let query: any = { hashtags: "getdrunk" };
+    
+    // If cursor is provided, fetch posts older than the cursor
+    if (cursor) {
+      try {
+        const cursorDate = new Date(cursor);
+        query.createdAt = { $lt: cursorDate };
+      } catch (error) {
+        console.error('Invalid cursor format:', error);
+      }
+    }
     
     // Get posts with the getdrunk hashtag
     const posts = await db
       .collection('posts')
-      .find({ 
-        hashtags: "getdrunk" 
-      })
+      .find(query)
       .project({
         _id: 1,
         title: 1,
@@ -107,19 +123,31 @@ export async function GET() {
         // description is intentionally excluded
       })
       .sort({ createdAt: -1 }) // Sort by newest first
-      .limit(20) // Limit to 20 posts
+      .limit(limit + 1) // Fetch one extra to determine if there are more posts
       .toArray() as Post[];
 
-    if (!posts || posts.length === 0) {
+    // Check if there are more posts
+    const hasMore = posts.length > limit;
+    // Remove the extra post if we fetched more than the limit
+    const postsToReturn = hasMore ? posts.slice(0, limit) : posts;
+    
+    if (!postsToReturn || postsToReturn.length === 0) {
       console.log('No getdrunk posts found in database');
       return NextResponse.json({ 
         success: true, 
-        data: [] 
+        data: [],
+        hasMore: false,
+        nextCursor: null
       });
     }
 
+    // Get the oldest post's date to use as the next cursor
+    const nextCursor = hasMore && postsToReturn.length > 0 
+      ? postsToReturn[postsToReturn.length - 1].createdAt.toISOString()
+      : null;
+
     // Collect all unique userIds to fetch user info
-    const userIds = [...new Set(posts.map(post => post.userId))].filter(Boolean);
+    const userIds = [...new Set(postsToReturn.map(post => post.userId))].filter(Boolean);
     
     // Fetch user information for all posts
     const users = await db
@@ -137,7 +165,7 @@ export async function GET() {
 
     // Collect all media IDs to fetch image info
     const mediaIds: ObjectId[] = [];
-    posts.forEach(post => {
+    postsToReturn.forEach(post => {
       if (post.media && post.media.length > 0) {
         // Get the primary media or first one
         const primaryMedia = post.media.find(m => m.isPrimary) || post.media[0];
@@ -162,7 +190,7 @@ export async function GET() {
     });
 
     // Transform data for frontend
-    const transformedExperiences = posts.map((post) => {
+    const transformedExperiences = postsToReturn.map((post) => {
       // Get user info or fallback
       const userInfo = post.userId ? userMap[post.userId.toString()] : null;
       const username = userInfo ? userInfo.username : post.username;
@@ -263,13 +291,16 @@ export async function GET() {
         merchant: merchant,
         likes: post.likes || 0,
         aspectRatio: aspectRatio,
-        hashtags: post.hashtags
+        hashtags: post.hashtags,
+        createdAt: post.createdAt
       };
     }).filter(exp => exp.image); // Only include posts with images
 
     return NextResponse.json({ 
       success: true, 
-      data: transformedExperiences 
+      data: transformedExperiences,
+      hasMore: hasMore,
+      nextCursor: nextCursor
     });
   } catch (error) {
     console.error('Database error:', error);
