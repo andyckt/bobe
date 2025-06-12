@@ -2,8 +2,10 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ArrowLeft, ChevronRight, MapPin, Star, Clock, Music, Wine, GlassWater, ExternalLink, Building2 } from "lucide-react"
+import { ArrowLeft, ChevronRight, MapPin, Star, Clock, Music, Wine, GlassWater, ExternalLink, Building2, Instagram, Linkedin, Twitter, Youtube, Plus } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
+import SocialMediaCard from "@/components/social-media-card"
+import StudioSelector from "@/components/studio-selector"
 
 // Sample data - this would come from your database
 const bars = [
@@ -179,6 +181,39 @@ export default function BarPage() {
 
         {/* Main content */}
         <div className="p-4 sm:p-6 overflow-auto max-h-[calc(100vh-6rem)]">
+          <div className="mb-8">
+            <h2 className="text-xl sm:text-2xl font-black mb-4">CONNECTED ACCOUNTS</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <SocialMediaCard
+                platform="Instagram"
+                username="@yourbrand"
+                icon={<Instagram className="h-6 w-6" />}
+                color="bg-gradient-to-br from-purple-500 to-pink-500"
+              />
+              <SocialMediaCard
+                platform="Twitter"
+                username="@yourbrand"
+                icon={<Twitter className="h-6 w-6" />}
+                color="bg-blue-400"
+              />
+              <SocialMediaCard
+                platform="LinkedIn"
+                username="Your Brand"
+                icon={<Linkedin className="h-6 w-6" />}
+                color="bg-blue-600"
+              />
+              <Button className="h-full min-h-[120px] border-4 border-dashed border-black dark:dark-rounded-gradient-border rounded-xl flex flex-col items-center justify-center gap-2 bg-white/50 hover:bg-white/70 dark:bg-zinc-800/50 dark:hover:bg-zinc-800/70">
+                <Plus className="h-8 w-8" />
+                <span className="font-bold">Add Platform</span>
+              </Button>
+            </div>
+          </div>
+
+          <div className="mb-8">
+            <h2 className="text-xl sm:text-2xl font-black mb-4">CONTENT STUDIO</h2>
+            <StudioSelector />
+          </div>
+
           <div className="mb-8">
             <h2 className="text-xl sm:text-2xl font-black mb-6">FEATURED BARS</h2>
             
