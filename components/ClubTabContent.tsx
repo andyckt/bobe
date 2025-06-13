@@ -4,12 +4,38 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import ClubCard from "@/components/ClubCard"
+import { motion } from "framer-motion"
 
 export default function ClubTabContent() {
+  const clubContent = {
+    hero: {
+      title: "INS Park: Shanghai's Wildest Club Playground"
+    }
+  }
+
   return (
     <div>
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 text-center">SHANGHAI CLUBS</h2>
-      
+      <motion.h1
+        className="text-6xl md:text-8xl font-black mb-6 leading-tight text-center"
+        style={{
+          background: "linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5)",
+          backgroundSize: "400% 400%",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+        }}
+        animate={{
+          backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+        }}
+        transition={{
+          duration: 5,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "linear",
+        }}
+      >
+        {clubContent.hero.title}
+      </motion.h1>
+
       <Tabs defaultValue="ins-park" className="w-full">
         <TabsList className="w-full mb-6 grid grid-cols-2 md:grid-cols-4 bg-white/50 dark:bg-zinc-800/50 p-1 rounded-xl">
           <TabsTrigger 
@@ -40,11 +66,6 @@ export default function ClubTabContent() {
 
         {/* INS Park Clubs */}
         <TabsContent value="ins-park" className="mt-6 space-y-8">
-          <div className="prose dark:prose-invert max-w-none">
-            <h3 className="text-2xl sm:text-3xl font-black mb-4">INS Park</h3>
-            <p className="text-lg mb-6">Shanghai's biggest club area 🍑🔥</p>
-          </div>
-
           {/* Club: Culture */}
           <ClubCard 
             name="Culture"
