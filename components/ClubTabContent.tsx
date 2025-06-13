@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import ClubCard from "@/components/ClubCard"
 import { motion } from "framer-motion"
+import Image from "next/image"
 
 export default function ClubTabContent() {
   const clubContent = {
@@ -12,6 +13,40 @@ export default function ClubTabContent() {
       title: "INS Park: Shanghai's Wildest Club Playground"
     }
   }
+
+  // Club images for the marquee
+  const clubImages = [
+    {
+      src: "/placeholder.jpg",
+      alt: "Club atmosphere with neon lights",
+      caption: "Culture Club"
+    },
+    {
+      src: "/placeholder.jpg",
+      alt: "DJ booth with crowd",
+      caption: "Hush"
+    },
+    {
+      src: "/placeholder.jpg",
+      alt: "Dance floor packed with people",
+      caption: "Lafin"
+    },
+    {
+      src: "/placeholder.jpg",
+      alt: "VIP section of the club",
+      caption: "Radi"
+    },
+    {
+      src: "/placeholder.jpg",
+      alt: "Club entrance with queue",
+      caption: "FreshmenClub"
+    },
+    {
+      src: "/placeholder.jpg",
+      alt: "Bar area with bartenders mixing drinks",
+      caption: "AnotherSideclub"
+    }
+  ];
 
   return (
     <div>
@@ -35,6 +70,60 @@ export default function ClubTabContent() {
       >
         {clubContent.hero.title}
       </motion.h1>
+
+      {/* Image Marquee */}
+      <div className="relative w-full overflow-hidden mb-10 py-4">
+        <div className="flex gap-4 animate-marquee hover:animation-play-state-paused">
+          {/* First set of images */}
+          {clubImages.map((image, index) => (
+            <div key={`image-${index}`} className="relative min-w-[250px] h-[180px] rounded-xl overflow-hidden border-2 border-black dark:border-white/20 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-md">
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                className="object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-2 backdrop-blur-sm">
+                <p className="text-white text-center font-bold">{image.caption}</p>
+              </div>
+            </div>
+          ))}
+          
+          {/* Duplicate set for seamless loop */}
+          {clubImages.map((image, index) => (
+            <div key={`image-dup-${index}`} className="relative min-w-[250px] h-[180px] rounded-xl overflow-hidden border-2 border-black dark:border-white/20 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-md">
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                className="object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-2 backdrop-blur-sm">
+                <p className="text-white text-center font-bold">{image.caption}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <style jsx>{`
+        .animate-marquee {
+          animation: marquee 30s linear infinite;
+        }
+
+        @keyframes marquee {
+          0% {
+            transform: translateX(0%);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        .animate-marquee:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
 
       <Tabs defaultValue="ins-park" className="w-full">
         <TabsList className="w-full mb-6 grid grid-cols-2 bg-white/50 dark:bg-zinc-800/50 p-1 rounded-xl">
