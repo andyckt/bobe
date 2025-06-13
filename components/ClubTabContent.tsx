@@ -16,7 +16,7 @@ export default function ClubTabContent() {
   return (
     <div>
       <motion.h1
-        className="text-6xl md:text-8xl font-black mb-6 leading-tight text-center"
+        className="text-5xl md:text-7xl font-black mb-8 mt-4 leading-tight text-center"
         style={{
           background: "linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06ffa5)",
           backgroundSize: "400% 400%",
@@ -37,7 +37,7 @@ export default function ClubTabContent() {
       </motion.h1>
 
       <Tabs defaultValue="ins-park" className="w-full">
-        <TabsList className="w-full mb-6 grid grid-cols-2 md:grid-cols-4 bg-white/50 dark:bg-zinc-800/50 p-1 rounded-xl">
+        <TabsList className="w-full mb-6 grid grid-cols-2 bg-white/50 dark:bg-zinc-800/50 p-1 rounded-xl">
           <TabsTrigger 
             value="ins-park" 
             className="rounded-lg font-bold text-sm sm:text-base"
@@ -50,22 +50,35 @@ export default function ClubTabContent() {
           >
             Other Popular Clubs
           </TabsTrigger>
-          <TabsTrigger 
-            value="full-pass" 
-            className="rounded-lg font-bold text-sm sm:text-base"
-          >
-            Full Pass Guide
-          </TabsTrigger>
-          <TabsTrigger 
-            value="map" 
-            className="rounded-lg font-bold text-sm sm:text-base"
-          >
-            Club Map
-          </TabsTrigger>
         </TabsList>
 
         {/* INS Park Clubs */}
         <TabsContent value="ins-park" className="mt-6 space-y-8">
+          {/* Full Pass Guide */}
+          <div className="bg-white/70 dark:bg-zinc-800/70 p-6 md:p-8 border-4 border-black dark:dark-rounded-gradient-border rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg mb-8">
+            <h3 className="text-2xl sm:text-3xl font-black mb-6">FULL Pass Guide 🎟️</h3>
+            <div className="prose dark:prose-invert max-w-none">
+              <p className="text-lg">There are more than 8 clubs inside the INS Park building. By buying a FULL pass, you can enter all of them, except a club called Kezee which most people don't like it anyways.</p>
+              
+              <h4 className="text-xl font-bold mt-6 mb-4">Survival Guide ⚠️</h4>
+              <p>Remember to arrive early to get all the entry bracelets first! If you entry bracelets of all the clubs, you won't have to line up again, this is what I do pretty much every time I party at INS Park.</p>
+              
+              <h4 className="text-xl font-bold mt-6 mb-4">Clubs Included in the Full Pass</h4>
+              <p>If you've got the Full Pass, these are the clubs that are included:</p>
+              <ul className="list-disc list-inside mt-2 space-y-1">
+                <li>Culture</li>
+                <li>Hush</li>
+                <li>Lafin</li>
+                <li>Radi</li>
+                <li>FreshmenClub</li>
+                <li>AnotherSideclub</li>
+                <li>FriendsClub</li>
+                <li>DirtyHouseClub</li>
+              </ul>
+              <p className="mt-4">Each has its own vibe, so definitely worth checking out if you want to explore the Shanghai nightlife scene without worrying about extra cover charges.</p>
+            </div>
+          </div>
+
           {/* Club: Culture */}
           <ClubCard 
             name="Culture"
@@ -154,43 +167,6 @@ export default function ClubTabContent() {
             }}
             finalThoughts="Orii isn't the most refined nightclub, but that's not really the point. It's fun, it's packed, and it's one of the better places in town if you want to dance, hear K-pop played loud, and stay out way later than planned. Not a weekly hangout, but definitely a fun one to experience at least once — especially if you're into music, energy, and letting loose."
           />
-        </TabsContent>
-        
-        {/* Full Pass Guide */}
-        <TabsContent value="full-pass" className="mt-6">
-          <div className="bg-white/70 dark:bg-zinc-800/70 p-6 md:p-8 border-4 border-black dark:dark-rounded-gradient-border rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg">
-            <h3 className="text-2xl sm:text-3xl font-black mb-6">FULL Pass Guide 🎟️</h3>
-            <div className="prose dark:prose-invert max-w-none">
-              <p className="text-lg">There are more than 8 clubs inside the INS Park building. By buying a FULL pass, you can enter all of them, except a club called Kezee which most people don't like it anyways.</p>
-              
-              <h4 className="text-xl font-bold mt-6 mb-4">Survival Guide ⚠️</h4>
-              <p>Remember to arrive early to get all the entry bracelets first! If you entry bracelets of all the clubs, you won't have to line up again, this is what I do pretty much every time I party at INS Park.</p>
-              
-              <h4 className="text-xl font-bold mt-6 mb-4">Clubs Included in the Full Pass</h4>
-              <p>If you've got the Full Pass, these are the clubs that are included:</p>
-              <ul className="list-disc list-inside mt-2 space-y-1">
-                <li>Culture</li>
-                <li>Hush</li>
-                <li>Lafin</li>
-                <li>Radi</li>
-                <li>FreshmenClub</li>
-                <li>AnotherSideclub</li>
-                <li>FriendsClub</li>
-                <li>DirtyHouseClub</li>
-              </ul>
-              <p className="mt-4">Each has its own vibe, so definitely worth checking out if you want to explore the Shanghai nightlife scene without worrying about extra cover charges.</p>
-            </div>
-          </div>
-        </TabsContent>
-        
-        {/* Club Map */}
-        <TabsContent value="map" className="mt-6">
-          <div className="bg-white/70 dark:bg-zinc-800/70 p-6 md:p-8 border-4 border-black dark:dark-rounded-gradient-border rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg">
-            <h3 className="text-2xl sm:text-3xl font-black mb-6">Club Map</h3>
-            <div className="text-center py-12">
-              <p className="text-gray-500 dark:text-gray-400">Coming soon - Interactive map of Shanghai's best clubs!</p>
-            </div>
-          </div>
         </TabsContent>
       </Tabs>
     </div>
