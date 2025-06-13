@@ -1,14 +1,21 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent } from "@/components/ui/tabs"
 import ClubCard from "@/components/ClubCard"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 
 export default function ClubTabContent() {
   const [activeTab, setActiveTab] = useState("ins-park")
+  const [hoveredTab, setHoveredTab] = useState<string | null>(null)
+  const [hoverStyle, setHoverStyle] = useState({})
+  const [activeStyle, setActiveStyle] = useState({ left: "0px", width: "0px" })
+  const tabRefs = useRef<Record<string, HTMLDivElement | null>>({
+    "ins-park": null,
+    "other-clubs": null
+  })
   
   const clubContent = {
     hero: {
@@ -43,6 +50,43 @@ export default function ClubTabContent() {
       alt: "Colorful nightclub lighting"
     }
   ];
+
+  useEffect(() => {
+    if (hoveredTab !== null) {
+      const hoveredElement = tabRefs.current[hoveredTab]
+      if (hoveredElement) {
+        const { offsetLeft, offsetWidth } = hoveredElement
+        setHoverStyle({
+          left: `${offsetLeft}px`,
+          width: `${offsetWidth}px`,
+        })
+      }
+    }
+  }, [hoveredTab])
+
+  useEffect(() => {
+    const activeElement = tabRefs.current[activeTab]
+    if (activeElement) {
+      const { offsetLeft, offsetWidth } = activeElement
+      setActiveStyle({
+        left: `${offsetLeft}px`,
+        width: `${offsetWidth}px`,
+      })
+    }
+  }, [activeTab])
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      const initialElement = tabRefs.current["ins-park"]
+      if (initialElement) {
+        const { offsetLeft, offsetWidth } = initialElement
+        setActiveStyle({
+          left: `${offsetLeft}px`,
+          width: `${offsetWidth}px`,
+        })
+      }
+    })
+  }, [])
 
   return (
     <div>
@@ -116,35 +160,72 @@ export default function ClubTabContent() {
         }
       `}</style>
 
-      <Tabs defaultValue="ins-park" className="w-full" onValueChange={(value) => setActiveTab(value)}>
-        <div className="relative">
-          <TabsList className="w-full mb-6 flex bg-transparent p-0 border-b border-gray-200 dark:border-gray-700">
-            <TabsTrigger 
-              value="ins-park" 
-              className="flex-1 py-3 px-4 font-semibold tracking-wide uppercase text-sm border-b-2 border-transparent data-[state=active]:border-pink-500 data-[state=active]:text-pink-600 dark:data-[state=active]:text-pink-400 rounded-none transition-all duration-200"
-            >
-              INS Park Clubs
-            </TabsTrigger>
-            <TabsTrigger 
-              value="other-clubs" 
-              className="flex-1 py-3 px-4 font-semibold tracking-wide uppercase text-sm border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 dark:data-[state=active]:text-blue-400 rounded-none transition-all duration-200"
-            >
-              Other Popular Clubs
-            </TabsTrigger>
-          </TabsList>
+      <div className="w-full mb-10">
+        <div className="flex justify-center">
+          <div className="relative">
+            {/* Hover Highlight */}
+            <div
+              className="absolute h-[40px] transition-all duration-300 ease-out bg-[#0e0f1114] dark:bg-[#ffffff1a] rounded-[6px] flex items-center"
+              style={{
+                ...hoverStyle,
+                opacity: hoveredTab !== null ? 1 : 0,
+              }}
+            />
+
+            {/* Active Indicator */}
+            <div
+              className="absolute bottom-[-6px] h-[2px] bg-[#0e0f11] dark:bg-white transition-all duration-300 ease-out"
+              style={activeStyle}
+            />
+
+            {/* Tabs */}
+            <div className="relative flex space-x-[24px] items-center">
+              <div
+                ref={(el) => {
+                  tabRefs.current["ins-park"] = el;
+                }}
+                className={`px-3 py-2 cursor-pointer transition-colors duration-300 h-[40px] ${
+                  activeTab === "ins-park" ? "text-[#0e0e10] dark:text-white" : "text-[#0e0f1199] dark:text-[#ffffff99]"
+                }`}
+                onMouseEnter={() => setHoveredTab("ins-park")}
+                onMouseLeave={() => setHoveredTab(null)}
+                onClick={() => setActiveTab("ins-park")}
+              >
+                <div className="text-lg font-medium leading-5 whitespace-nowrap flex items-center justify-center h-full">
+                  INS Park
+                </div>
+              </div>
+              
+              <div
+                ref={(el) => {
+                  tabRefs.current["other-clubs"] = el;
+                }}
+                className={`px-3 py-2 cursor-pointer transition-colors duration-300 h-[40px] ${
+                  activeTab === "other-clubs" ? "text-[#0e0e10] dark:text-white" : "text-[#0e0f1199] dark:text-[#ffffff99]"
+                }`}
+                onMouseEnter={() => setHoveredTab("other-clubs")}
+                onMouseLeave={() => setHoveredTab(null)}
+                onClick={() => setActiveTab("other-clubs")}
+              >
+                <div className="text-lg font-medium leading-5 whitespace-nowrap flex items-center justify-center h-full">
+                  Other Venues
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* TabsContent with AnimatePresence */}
         <AnimatePresence mode="wait">
           {/* INS Park Clubs */}
-          <TabsContent value="ins-park" className="mt-6">
+          {activeTab === "ins-park" && (
             <motion.div
               key="ins-park"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
-              className="space-y-8"
+              className="space-y-8 mt-8"
             >
               {/* Full Pass Guide */}
               <div className="mb-8">
@@ -237,17 +318,17 @@ export default function ClubTabContent() {
                 </Button>
               </div>
             </motion.div>
-          </TabsContent>
+          )}
 
           {/* Other Popular Clubs */}
-          <TabsContent value="other-clubs" className="mt-6">
+          {activeTab === "other-clubs" && (
             <motion.div
               key="other-clubs"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
-              className="space-y-8"
+              className="space-y-8 mt-8"
             >
               <div className="prose dark:prose-invert max-w-none">
                 <h3 className="text-2xl sm:text-3xl font-black mb-4">Other Popular Clubs</h3>
@@ -269,9 +350,9 @@ export default function ClubTabContent() {
                 finalThoughts="Orii isn't the most refined nightclub, but that's not really the point. It's fun, it's packed, and it's one of the better places in town if you want to dance, hear K-pop played loud, and stay out way later than planned. Not a weekly hangout, but definitely a fun one to experience at least once — especially if you're into music, energy, and letting loose."
               />
             </motion.div>
-          </TabsContent>
+          )}
         </AnimatePresence>
-      </Tabs>
+      </div>
     </div>
   )
 } 
