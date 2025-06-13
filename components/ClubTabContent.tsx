@@ -112,11 +112,11 @@ export default function ClubTabContent() {
       </motion.h1>
 
       {/* Image Marquee - Improved version for seamless infinite loop */}
-      <div className="relative w-full overflow-hidden mb-10 py-4">
-        <div className="marquee-track flex gap-4">
+      <div className="relative w-[100vw] left-[calc(-50vw+50%)] overflow-hidden mb-10">
+        <div className="marquee-track flex">
           {/* First set of images */}
           {clubImages.map((image, index) => (
-            <div key={`image-${index}`} className="marquee-item relative min-w-[200px] h-[150px] rounded-[20px] overflow-hidden border-4 border-black dark:dark-rounded-gradient-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-md">
+            <div key={`image-${index}`} className="marquee-item relative min-w-[200px] h-[150px] overflow-hidden">
               <Image
                 src={image.src}
                 alt={image.alt}
@@ -128,7 +128,7 @@ export default function ClubTabContent() {
           
           {/* Duplicate set for seamless loop */}
           {clubImages.map((image, index) => (
-            <div key={`image-dup-${index}`} className="marquee-item relative min-w-[200px] h-[150px] rounded-[20px] overflow-hidden border-4 border-black dark:dark-rounded-gradient-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-md">
+            <div key={`image-dup-${index}`} className="marquee-item relative min-w-[200px] h-[150px] overflow-hidden">
               <Image
                 src={image.src}
                 alt={image.alt}
@@ -143,7 +143,7 @@ export default function ClubTabContent() {
       <style jsx>{`
         .marquee-track {
           animation: marquee 30s linear infinite;
-          width: calc(200px * ${clubImages.length * 2} + 1rem * ${(clubImages.length * 2) - 1});
+          width: calc(200px * ${clubImages.length * 2});
         }
 
         @keyframes marquee {
@@ -151,7 +151,7 @@ export default function ClubTabContent() {
             transform: translateX(0);
           }
           100% {
-            transform: translateX(calc(-200px * ${clubImages.length} - 1rem * ${clubImages.length - 1}));
+            transform: translateX(calc(-200px * ${clubImages.length}));
           }
         }
 
@@ -311,6 +311,21 @@ export default function ClubTabContent() {
                 }}
                 finalThoughts="If you're looking for a high-energy dance experience with great DJs and an international crowd, Radi is definitely worth checking out."
               />
+              
+              {/* Other Clubs */}
+              <div className="mb-8">
+                <h3 className="text-2xl sm:text-3xl font-black mb-6">Other Clubs Included in the Full Pass</h3>
+                <div className="prose dark:prose-invert max-w-none">
+                  <p className="text-lg">If you've got the Full Pass, these are the other clubs that were included in the pass as well as the ones that we just mentioned before:</p>
+                  <ul className="list-disc list-inside mt-2 space-y-1">
+                    <li>FreshmenClub</li>
+                    <li>AnotherSideclub</li>
+                    <li>FriendsClub</li>
+                    <li>DirtyHouseClub</li>
+                  </ul>
+                  <p className="mt-4">I've been to a few of these, and each has its own vibe, so definitely worth checking out if you want to explore the Shanghai nightlife scene without worrying about extra cover charges.</p>
+                </div>
+              </div>
               
               <div className="mt-6 flex justify-center">
                 <Button className="bg-black hover:bg-black/80 text-white dark:bg-gradient-to-r dark:from-gradient-pink dark:to-gradient-purple dark:text-black dark:hover:brightness-110 rounded-xl border-2 border-black dark:dark-rounded-gradient-border font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-sm transition-all hover:translate-y-[-2px]">
