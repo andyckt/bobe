@@ -14,37 +14,31 @@ export default function ClubTabContent() {
     }
   }
 
-  // Club images for the marquee
+  // Club images for the marquee with Unsplash images
   const clubImages = [
     {
-      src: "/placeholder.jpg",
-      alt: "Club atmosphere with neon lights",
-      caption: "Culture Club"
+      src: "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=800&auto=format&fit=crop",
+      alt: "Nightclub with colorful lights"
     },
     {
-      src: "/placeholder.jpg",
-      alt: "DJ booth with crowd",
-      caption: "Hush"
+      src: "https://images.unsplash.com/photo-1571266028243-a52c5f753e7c?q=80&w=800&auto=format&fit=crop",
+      alt: "DJ booth with crowd"
     },
     {
-      src: "/placeholder.jpg",
-      alt: "Dance floor packed with people",
-      caption: "Lafin"
+      src: "https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?q=80&w=800&auto=format&fit=crop",
+      alt: "Dance floor with people dancing"
     },
     {
-      src: "/placeholder.jpg",
-      alt: "VIP section of the club",
-      caption: "Radi"
+      src: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800&auto=format&fit=crop",
+      alt: "Nightclub with laser lights"
     },
     {
-      src: "/placeholder.jpg",
-      alt: "Club entrance with queue",
-      caption: "FreshmenClub"
+      src: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=800&auto=format&fit=crop",
+      alt: "People dancing at a nightclub"
     },
     {
-      src: "/placeholder.jpg",
-      alt: "Bar area with bartenders mixing drinks",
-      caption: "AnotherSideclub"
+      src: "https://images.unsplash.com/photo-1438557068880-c5f474830377?q=80&w=800&auto=format&fit=crop",
+      alt: "Colorful nightclub lighting"
     }
   ];
 
@@ -71,56 +65,51 @@ export default function ClubTabContent() {
         {clubContent.hero.title}
       </motion.h1>
 
-      {/* Image Marquee */}
+      {/* Image Marquee - Improved version for seamless infinite loop */}
       <div className="relative w-full overflow-hidden mb-10 py-4">
-        <div className="flex gap-4 animate-marquee hover:animation-play-state-paused">
+        <div className="marquee-track flex gap-4">
           {/* First set of images */}
           {clubImages.map((image, index) => (
-            <div key={`image-${index}`} className="relative min-w-[250px] h-[180px] rounded-xl overflow-hidden border-2 border-black dark:border-white/20 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-md">
+            <div key={`image-${index}`} className="marquee-item relative min-w-[250px] h-[180px] rounded-[24px] overflow-hidden border-4 border-black dark:dark-rounded-gradient-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-md">
               <Image
                 src={image.src}
                 alt={image.alt}
                 fill
                 className="object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-2 backdrop-blur-sm">
-                <p className="text-white text-center font-bold">{image.caption}</p>
-              </div>
             </div>
           ))}
           
           {/* Duplicate set for seamless loop */}
           {clubImages.map((image, index) => (
-            <div key={`image-dup-${index}`} className="relative min-w-[250px] h-[180px] rounded-xl overflow-hidden border-2 border-black dark:border-white/20 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-md">
+            <div key={`image-dup-${index}`} className="marquee-item relative min-w-[250px] h-[180px] rounded-[24px] overflow-hidden border-4 border-black dark:dark-rounded-gradient-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-md">
               <Image
                 src={image.src}
                 alt={image.alt}
                 fill
                 className="object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-2 backdrop-blur-sm">
-                <p className="text-white text-center font-bold">{image.caption}</p>
-              </div>
             </div>
           ))}
         </div>
       </div>
 
       <style jsx>{`
-        .animate-marquee {
+        .marquee-track {
           animation: marquee 30s linear infinite;
+          width: calc(250px * ${clubImages.length * 2} + 1rem * ${(clubImages.length * 2) - 1});
         }
 
         @keyframes marquee {
           0% {
-            transform: translateX(0%);
+            transform: translateX(0);
           }
           100% {
-            transform: translateX(-50%);
+            transform: translateX(calc(-250px * ${clubImages.length} - 1rem * ${clubImages.length - 1}));
           }
         }
 
-        .animate-marquee:hover {
+        .marquee-track:hover {
           animation-play-state: paused;
         }
       `}</style>
