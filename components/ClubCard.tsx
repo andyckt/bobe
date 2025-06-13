@@ -30,7 +30,7 @@ export default function ClubCard({
   imageUrl
 }: ClubCardProps) {
   return (
-    <div className="bg-white/70 dark:bg-zinc-800/70 p-6 md:p-8 border-4 border-black dark:dark-rounded-gradient-border rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg">
+    <>
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-2xl sm:text-3xl font-black">{name}</h3>
         <div className="flex items-center gap-2 flex-wrap justify-end">
@@ -127,6 +127,6 @@ export default function ClubCard({
           )}
         </div>
       </div>
-    </div>
+    </>
   )
 } 

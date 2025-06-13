@@ -118,40 +118,18 @@ export default function ClubTabContent() {
 
       <Tabs defaultValue="ins-park" className="w-full" onValueChange={(value) => setActiveTab(value)}>
         <div className="relative">
-          <TabsList className="w-full mb-6 grid grid-cols-2 bg-white/50 dark:bg-zinc-800/50 p-1 rounded-xl backdrop-blur-sm border-2 border-black dark:border-zinc-700 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)]">
-            {/* Active Tab Indicator */}
-            <motion.div 
-              className="absolute top-0 left-0 h-full bg-black/5 dark:bg-white/5 rounded-lg z-0"
-              initial={false}
-              animate={{ 
-                x: activeTab === "ins-park" ? "0%" : "100%",
-                width: "50%"
-              }}
-              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-            />
+          <TabsList className="w-full mb-6 flex bg-transparent p-0 border-b border-gray-200 dark:border-gray-700">
             <TabsTrigger 
               value="ins-park" 
-              className="rounded-lg font-bold text-sm sm:text-base transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-pink-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-inner z-10"
+              className="flex-1 py-3 px-4 font-semibold tracking-wide uppercase text-sm border-b-2 border-transparent data-[state=active]:border-pink-500 data-[state=active]:text-pink-600 dark:data-[state=active]:text-pink-400 rounded-none transition-all duration-200"
             >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center justify-center gap-2"
-              >
-                <span>🏙️</span> INS Park Clubs
-              </motion.div>
+              INS Park Clubs
             </TabsTrigger>
             <TabsTrigger 
               value="other-clubs" 
-              className="rounded-lg font-bold text-sm sm:text-base transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-teal-400 data-[state=active]:text-white data-[state=active]:shadow-inner z-10"
+              className="flex-1 py-3 px-4 font-semibold tracking-wide uppercase text-sm border-b-2 border-transparent data-[state=active]:border-blue-500 data-[state=active]:text-blue-600 dark:data-[state=active]:text-blue-400 rounded-none transition-all duration-200"
             >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center justify-center gap-2"
-              >
-                <span>🌃</span> Other Popular Clubs
-              </motion.div>
+              Other Popular Clubs
             </TabsTrigger>
           </TabsList>
         </div>
@@ -169,7 +147,7 @@ export default function ClubTabContent() {
               className="space-y-8"
             >
               {/* Full Pass Guide */}
-              <div className="bg-white/70 dark:bg-zinc-800/70 p-6 md:p-8 border-4 border-black dark:dark-rounded-gradient-border rounded-3xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-none dark:dark-gradient-shadow-lg mb-8">
+              <div className="mb-8">
                 <h3 className="text-2xl sm:text-3xl font-black mb-6">FULL Pass Guide 🎟️</h3>
                 <div className="prose dark:prose-invert max-w-none">
                   <p className="text-lg">There are more than 8 clubs inside the INS Park building. By buying a FULL pass, you can enter all of them, except a club called Kezee which most people don't like it anyways.</p>
